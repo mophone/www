@@ -105,10 +105,10 @@ var searchResult = {
             //}
            
             imagesLoaded("#bookList", function (instance) {
+                document.getElementById("content").style.overflowY = "hidden";
                 if ($("#bookList").hasClass("isotope")) {
                     $("#bookList").isotope("appended", $(elems),
                         function () {
-                            document.getElementById("content").style.overflowY = "hidden";
                             document.getElementById("bookListLoader").remove();
                             searchResult.loading = false;
                             $("#bookList li").css({ opacity: 1 });

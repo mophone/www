@@ -242,6 +242,8 @@ $(document).ready(function () {
     global.loadHoverable();
 
     initFastButtons();
+
+    global.get("home.html", function (data) { document.getElementById("container").innerHTML = data; homeBooks.loadPage() }, null);
 });
 
 $(window).load(function () {
