@@ -43,7 +43,7 @@ var searchResult = {
                
                 document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
                 document.getElementById("content").style.overflowY = "auto";
-                //this.scrollTop += 400;
+                this.scrollTop += 100;
                 var loader = document.createElement('li');
                 loader.className = "books_loader";
                 loader.id = "bookListLoader";
