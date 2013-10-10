@@ -97,6 +97,7 @@ var global = {
     itemCount: 2,
     bookItemImageWidth: 0,
     apiAddress: "http://192.168.2.77:1002/",
+    history: new Array(),
     setupBindings: function () {
 
         Hammer(document.getElementById("btnLeftMenu")).on("tap", function () {
@@ -140,6 +141,10 @@ var global = {
             e.preventDefault();
             return false;
         });
+
+        document.getElementById("btnCancelSearch").addEventListener("click", function () {
+
+        });
     },
     loadHoverable: function () {
         var hoverable = document.querySelector(".hoverable");
@@ -166,11 +171,25 @@ var global = {
                 }
             }
         }).done(function (data) {
+            if (type != "jsonp") {
+                document.getElementById("container").innerHTML = data;
+
+                switch (url) {
+                    case "home.html":
+                        homeBooks.loadPage();
+                        break;
+                    default:
+                        break;
+                }
+            }
             if (callback != null)
                 callback(data);
         }).fail(function (jqXHR, textStatus, errorThrown) { });
 
         return ajax;
+    },
+    goToPage: function (url) {
+        $.bbq.pushState({ page: url });
     },
     openLoader: function (id) {
         if (document.querySelector("#" + id + " .spinner") == null)
@@ -204,7 +223,7 @@ var global = {
         global.windowWidth = window.innerWidth;
         global.windowHeight = window.innerHeight;
         global.itemCount = 2;
-       
+
         if (global.windowWidth > 800)
             global.itemCount = 6;
         else if (global.windowWidth > 600)
@@ -243,9 +262,17 @@ $(document).ready(function () {
 
     initFastButtons();
 
-    global.get("home.html", function (data) { document.getElementById("container").innerHTML = data; homeBooks.loadPage() }, null);
+    global.goToPage("home.html");
 });
 
-$(window).load(function () {
-  
+
+
+$(window).bind('hashchange', function (e) {
+    var state = $.bbq.getState();
+    if (typeof state.page != "undefined") {
+        global.get(state.page, null, null);
+    }
+    else {
+        global.goToPage("home.html");
+    }
 });

@@ -148,9 +148,10 @@ img {
     user-select: none;
     outline: none;
 }
+
 * {
-    
 }
+
 .left_menu_curtain {
     position: absolute;
     left: 0;
@@ -308,7 +309,7 @@ img {
     .header .search_area {
         position: absolute;
         right: 10px;
-        top: 10px;
+        top: 12px;
         bottom: 10px;
         left: 80px;
         display: none;
@@ -322,6 +323,8 @@ img {
             color: #fff;
             padding-left: 25px;
             width: 100%;
+            border-radius:0px;
+            font-size:13px;
         }
 
             .header .search_area input:focus {
@@ -343,6 +346,19 @@ img {
             .header .search_area input:-ms-input-placeholder { /* Internet Explorer 10+ */
                 color: #d4ede8;
             }
+
+        .header .search_area .cancel_search_button {
+            background: url("../img/cancel.png") no-repeat transparent;
+            background-size: 15px 15px;
+            -webkit-background-size: 15px 15px;
+            -moz-background-size: 15px 15px;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 0px;
+            top: 6px;
+            z-index: 3;
+        }
 
 .menu_button {
     background: url("../img/menu_h.png") 12pt no-repeat transparent;
@@ -422,8 +438,8 @@ img {
 
 .container {
     top: 50px;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     position: absolute;
     z-index: 1;
     bottom: 0px;
@@ -435,8 +451,8 @@ img {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     z-index: 1;
     -webkit-overflow-scrolling: touch;
 }
@@ -512,11 +528,11 @@ img {
 
 .isotope .isotope-item {
     /* change duration value to whatever you like */
-    -webkit-transition-duration: 0.8s;
-    -moz-transition-duration: 0.8s;
-    -ms-transition-duration: 0.8s;
-    -o-transition-duration: 0.8s;
-    transition-duration: 0.8s;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -ms-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
 }
 
 .isotope .isotope-item {

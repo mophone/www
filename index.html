@@ -16,6 +16,7 @@
     <script src="js/plugins/fastclick.js"></script>
     <script src="js/plugins/hammer.js"></script>
     <script src="js/plugins/iscroll-lite.js"></script>
+    <script src="js/plugins/jquery.bbq.js"></script>
     <script src="./js/global.js"></script>
     <script src="./js/home.js"></script>
     <script src="./js/searchResult.js"></script>
@@ -29,7 +30,19 @@
 
 
         function onDeviceReady() {
-            
+            alert(window.device.platform);
+
+            document.addEventListener("backbutton", function (e) {
+                //if ($.mobile.activePage.is('#homepage')) {
+                //    e.preventDefault();
+                //    navigator.app.exitApp();
+                //}
+                //else {
+                history.go(-1);
+                navigator.app.backHistory();
+                //}
+            }, false);
+
         }
     </script>
 </head>
@@ -44,6 +57,7 @@
             <form action="#" id="frmSearchBook">
                 <input placeholder="e-kitap ara" id="txtHeaderSearch" />
             </form>
+            <div class="cancel_search_button" id="btnCancelSearch"></div>
         </div>
     </div>
     <div class="menu_button hoverable " id="btnLeftMenu"></div>

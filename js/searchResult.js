@@ -36,28 +36,25 @@ var searchResult = {
         var listener = function () {
             var scrollBottom = this.scrollHeight - this.clientHeight;
             var scrollPosition = this.scrollTop;
-            if (scrollPosition + 50 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
+            if (scrollPosition + 150 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
                 searchResult.loading = true;
                 searchResult.currentPage++;
-                document.getElementById("content").style.overflowY = "hidden";
-
-                document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
-
-
-                var loader = document.createElement('li');
-                loader.className = "books_loader";
-                loader.id = "bookListLoader";
-                document.getElementById("bookList").appendChild(loader);
-                global.openLoader("bookListLoader");
-                document.getElementById("content").style.overflowY = "auto";
-                document.getElementById("content").scrollTop += document.getElementById("content").scrollTop + 99999;
-
                 searchResult.search();
             }
         }
 
         document.getElementById("content").removeEventListener("onscroll", listener, false);
         document.getElementById("content").onscroll = listener;
+    },
+    putLoader:function(){
+        if ((searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount) {
+            document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
+            var loader = document.createElement('li');
+            loader.className = "books_loader";
+            loader.id = "bookListLoader";
+            document.getElementById("bookList").appendChild(loader);
+            global.openLoader("bookListLoader");
+        }
     },
     search: function () {
         global.openLoader("content");
@@ -100,19 +97,22 @@ var searchResult = {
 
             searchResult.totalItemCount = results.FilteredResultCount;
             var msnry = Masonry.data(booksContainer);
-            //if (typeof msnry == "undefined") {
             booksContainer.appendChild(fragment);
-            //}
+
+
+
 
             imagesLoaded("#bookList", function (instance) {
                 document.getElementById("content").style.overflowY = "hidden";
                 if ($("#bookList").hasClass("isotope")) {
                     $("#bookList").isotope("appended", $(elems),
                         function () {
-                            document.getElementById("bookListLoader").remove();
+                            if (document.getElementById("bookListLoader") != null)
+                                document.getElementById("bookListLoader").remove();
                             searchResult.loading = false;
                             $("#bookList li").css({ opacity: 1 });
                             document.getElementById("content").style.overflowY = "auto";
+                            searchResult.putLoader();
                             //searchResult.scroll.refresh();
                         })
                 }
@@ -126,10 +126,13 @@ var searchResult = {
                         searchResult.loading = false;
                         $("#bookList li").css({ opacity: 1 });
                         document.getElementById("content").style.overflowY = "auto";
+                        searchResult.putLoader();
                         //searchResult.scroll = new IScroll('#content', { probeType: 3});
                         //searchResult.scroll.on('scroll', searchResult.updatePosition);
 
                     });
+
+              
             });
         }, "jsonp");
     }
