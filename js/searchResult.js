@@ -50,7 +50,7 @@ var searchResult = {
                 document.getElementById("bookList").appendChild(loader);
                 global.openLoader("bookListLoader");
                 document.getElementById("content").style.overflowY = "auto";
-                document.getElementById("content").scrollTop += document.getElementById("content").scrollTop + 100;
+                document.getElementById("content").scrollTop += document.getElementById("content").scrollTop + 99999;
 
                 searchResult.search();
             }
