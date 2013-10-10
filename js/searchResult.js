@@ -42,14 +42,15 @@ var searchResult = {
                 document.getElementById("content").style.overflowY = "hidden";
                
                 document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
-                document.getElementById("content").style.overflowY = "auto";
-                this.scrollTop += 100;
+                
+               
                 var loader = document.createElement('li');
                 loader.className = "books_loader";
                 loader.id = "bookListLoader";
                 document.getElementById("bookList").appendChild(loader);
                 global.openLoader("bookListLoader");
-           
+                this.scrollTop += 100;
+                document.getElementById("content").style.overflowY = "auto";
                 searchResult.search();
             }
         }
