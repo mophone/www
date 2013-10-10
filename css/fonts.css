@@ -1,0 +1,21 @@
+﻿@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTalSqKUsDpiXlwfj-ZM2w_A.eot);
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTalSqKUsDpiXlwfj-ZM2w_A.eot) format('embedded-opentype'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTRa1RVmPjeKy21_GQJaLlJI.woff) format('woff'), url(../font/OpenSans-Light.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(http://themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRfY6323mHUZFJMgTvxaG2iE.eot);
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRfY6323mHUZFJMgTvxaG2iE.eot) format('embedded-opentype'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff) format('woff'), url(../font/OpenSans-Regular.ttf) format('truetype');
+}
+@font-face { 
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSqlSqKUsDpiXlwfj-ZM2w_A.eot);
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSqlSqKUsDpiXlwfj-ZM2w_A.eot) format('embedded-opentype'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSha1RVmPjeKy21_GQJaLlJI.woff) format('woff'), url(../font/OpenSans-Bold.ttf) format('truetype');
+}
