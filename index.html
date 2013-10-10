@@ -33,16 +33,11 @@
             alert(window.device.platform);
 
             document.addEventListener("backbutton", function (e) {
-                //if ($.mobile.activePage.is('#homepage')) {
-                //    e.preventDefault();
-                //    navigator.app.exitApp();
-                //}
-                //else {
+               
                 e.preventDefault();
                 alert("");
                 history.go(-1);
                 navigator.app.backHistory();
-                //}
             }, false);
 
         }
