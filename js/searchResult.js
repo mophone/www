@@ -101,6 +101,7 @@ var searchResult = {
             //if (typeof msnry == "undefined") {
             booksContainer.appendChild(fragment);
             //}
+            document.getElementById("content").style.overflowY = "hidden";
             imagesLoaded("#bookList", function (instance) {
                 if ($("#bookList").hasClass("isotope")) {
                     $("#bookList").isotope("appended", $(elems),
@@ -109,7 +110,7 @@ var searchResult = {
                             document.getElementById("bookListLoader").remove();
                             searchResult.loading = false;
                             $("#bookList li").css({ opacity: 1 });
-                          
+                            document.getElementById("content").style.overflowY = "auto";
                             //searchResult.scroll.refresh();
                         })
                 }
@@ -122,7 +123,7 @@ var searchResult = {
                         searchResult.setupPaging();
                         searchResult.loading = false;
                         $("#bookList li").css({ opacity: 1 });
-
+                        document.getElementById("content").style.overflowY = "auto";
                         //searchResult.scroll = new IScroll('#content', { probeType: 3});
                         //searchResult.scroll.on('scroll', searchResult.updatePosition);
                         
