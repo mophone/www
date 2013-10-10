@@ -36,11 +36,11 @@ var searchResult = {
         var listener = function () {
             var scrollBottom = this.scrollHeight - this.clientHeight;
             var scrollPosition = this.scrollTop;
-            if (scrollPosition >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
+            if (scrollPosition+50 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
                 searchResult.loading = true;
                 searchResult.currentPage++;
                 document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
-                this.scrollTop += 400;
+                //this.scrollTop += 400;
                 var loader = document.createElement('li');
                 loader.className = "books_loader";
                 loader.id = "bookListLoader";
