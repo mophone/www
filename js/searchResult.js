@@ -39,7 +39,7 @@ var searchResult = {
             if (scrollPosition+50 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
                 searchResult.loading = true;
                 searchResult.currentPage++;
-                document.getElementById("content").style.overflowY = "hidden";
+                //document.getElementById("content").style.overflowY = "hidden";
                
                 //document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
                 
@@ -49,8 +49,8 @@ var searchResult = {
                 loader.id = "bookListLoader";
                 document.getElementById("bookList").appendChild(loader);
                 global.openLoader("bookListLoader");
-                document.getElementById("content").style.overflowY = "auto";
-                this.scrollTop += 100;
+                //document.getElementById("content").style.overflowY = "auto";
+                //this.scrollTop += 100;
              
                 searchResult.search();
             }
