@@ -49,8 +49,9 @@ var searchResult = {
                 loader.id = "bookListLoader";
                 document.getElementById("bookList").appendChild(loader);
                 global.openLoader("bookListLoader");
-                this.scrollTop += 100;
                 document.getElementById("content").style.overflowY = "auto";
+                this.scrollTop += 100;
+             
                 searchResult.search();
             }
         }
