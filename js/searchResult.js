@@ -39,7 +39,10 @@ var searchResult = {
             if (scrollPosition+50 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
                 searchResult.loading = true;
                 searchResult.currentPage++;
+                document.getElementById("content").style.overflowY = "hidden";
+               
                 document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
+                document.getElementById("content").style.overflowY = "auto";
                 //this.scrollTop += 400;
                 var loader = document.createElement('li');
                 loader.className = "books_loader";
@@ -106,8 +109,7 @@ var searchResult = {
                             document.getElementById("bookListLoader").remove();
                             searchResult.loading = false;
                             $("#bookList li").css({ opacity: 1 });
-                            document.getElementById("content").style.overflowY = "hidden";
-                            document.getElementById("content").style.overflowY = "auto";
+                          
                             //searchResult.scroll.refresh();
                         })
                 }
