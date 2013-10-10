@@ -9,7 +9,7 @@ var searchResult = {
     //updatePosition: function () {
     //    var scrollBottom = this.scrollHeight - this.clientHeight;
     //    var scrollPosition = this.scrollTop;
-        
+
     //    if (this.y < this.maxScrollY && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
     //        console.log(this);
     //        searchResult.loading = true;
@@ -18,7 +18,7 @@ var searchResult = {
     //        //searchResult.scroll = new IScroll('#content', { probeType: 3 });
     //        //.scroll.scrollTo(0, this.maxScrollY, 200);
     //        searchResult.scroll.refresh();
-           
+
 
     //        //this.scrollTop += 400;
     //        var loader = document.createElement('li');
@@ -36,22 +36,22 @@ var searchResult = {
         var listener = function () {
             var scrollBottom = this.scrollHeight - this.clientHeight;
             var scrollPosition = this.scrollTop;
-            if (scrollPosition+50 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
+            if (scrollPosition + 50 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
                 searchResult.loading = true;
                 searchResult.currentPage++;
-                //document.getElementById("content").style.overflowY = "hidden";
-               
-                //document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
-                
-               
+                document.getElementById("content").style.overflowY = "hidden";
+
+                document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
+
+
                 var loader = document.createElement('li');
                 loader.className = "books_loader";
                 loader.id = "bookListLoader";
                 document.getElementById("bookList").appendChild(loader);
                 global.openLoader("bookListLoader");
-                //document.getElementById("content").style.overflowY = "auto";
-                //this.scrollTop += 100;
-             
+                document.getElementById("content").style.overflowY = "auto";
+                document.getElementById("content").scrollTop += document.getElementById("content").scrollTop + 100;
+
                 searchResult.search();
             }
         }
@@ -103,7 +103,7 @@ var searchResult = {
             //if (typeof msnry == "undefined") {
             booksContainer.appendChild(fragment);
             //}
-           
+
             imagesLoaded("#bookList", function (instance) {
                 document.getElementById("content").style.overflowY = "hidden";
                 if ($("#bookList").hasClass("isotope")) {
@@ -128,7 +128,7 @@ var searchResult = {
                         document.getElementById("content").style.overflowY = "auto";
                         //searchResult.scroll = new IScroll('#content', { probeType: 3});
                         //searchResult.scroll.on('scroll', searchResult.updatePosition);
-                        
+
                     });
             });
         }, "jsonp");
