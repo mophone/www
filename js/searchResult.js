@@ -46,9 +46,9 @@ var searchResult = {
                 for (var i = 0; i < results.FoundCategories.length; i++) {
                     categoryContainer.innerHTML += '<div class="item fastbutton"  data-action="' + results.FoundCategories[i].ID + '">' + results.FoundCategories[i].Name + '</div>';
                 }
-
-                var categoryScroll = new IScroll('#searchResult #categoriesWrapper', { scrollX: true, scrollY: false, mouseWheel: true, bounce: false });
-
+                //
+                //var categoryScroll = new IScroll('#searchResult #categoriesWrapper', { scrollX: true, scrollY: false, mouseWheel: true, bounce: false });
+                alert("a");
                 var categoryButtons = categoryContainer.querySelectorAll(".item");
                 for (var i = 0; i < categoryButtons.length; i++) {
                     Hammer(categoryButtons[i]).on("tap", function (event) {
@@ -67,7 +67,7 @@ var searchResult = {
                         searchResult.search("categoryChange");
                     });
                 }
-
+                alert("b");
                 Hammer(searchResult.parent.querySelector('#searchResult #categoriesWrapper')).on("swipeleft", function (event) {
                     event.stopPropagation();
                     event.preventDefault();
@@ -110,7 +110,7 @@ var searchResult = {
                             if (searchResult.parent.querySelector("#bookListLoader") != null)
                                 searchResult.parent.querySelector("#bookListLoader").remove();
                             searchResult.loading = false;
-                            //$("#searchResult #bookList li").css({ opacity: 1 });
+                            $("#searchResult #bookList li").css({ opacity: 1 });
                             //searchResult.parent.querySelector("#content").style.overflowY = "auto";
                             searchResult.putLoader();
                             //searchResult.scroll.refresh();

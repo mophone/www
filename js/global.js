@@ -196,7 +196,7 @@ var global = {
     },
     goToPage: function (url, pushHistory) {
         if (pushHistory) {
-            document.getElementById(global.activePage).style.display = "none";
+            //document.getElementById(global.activePage).style.display = "none";
             global.history.push(global.activePage);
             //global.history.push({ html: document.getElementById("container").innerHTML, page: global.activePage });
             //if (global.device = "IOS") {
