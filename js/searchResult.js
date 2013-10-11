@@ -6,31 +6,7 @@ var searchResult = {
     totalItemCount: 0,
     loading: false,
     scroll: null,
-    //updatePosition: function () {
-    //    var scrollBottom = this.scrollHeight - this.clientHeight;
-    //    var scrollPosition = this.scrollTop;
-
-    //    if (this.y < this.maxScrollY && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
-    //        console.log(this);
-    //        searchResult.loading = true;
-    //        searchResult.currentPage++;
-    //        document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
-    //        //searchResult.scroll = new IScroll('#content', { probeType: 3 });
-    //        //.scroll.scrollTo(0, this.maxScrollY, 200);
-    //        searchResult.scroll.refresh();
-
-
-    //        //this.scrollTop += 400;
-    //        var loader = document.createElement('li');
-    //        loader.className = "books_loader";
-    //        loader.id = "bookListLoader";
-    //        document.getElementById("bookList").appendChild(loader);
-    //        global.openLoader("bookListLoader");
-    //        searchResult.scroll.scrollTo(0, searchResult.scroll.maxScrollY, 200);
-    //        searchResult.search();
-    //    }
-
-    //},
+    parent: null,
     setupPaging: function (results) {
 
         var listener = function () {
@@ -39,49 +15,73 @@ var searchResult = {
             if (scrollPosition + 150 >= scrollBottom && (searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount && !searchResult.loading) {
                 searchResult.loading = true;
                 searchResult.currentPage++;
-                searchResult.search();
+                searchResult.search("appended");
             }
         }
 
-        document.getElementById("content").removeEventListener("onscroll", listener, false);
-        document.getElementById("content").onscroll = listener;
+        searchResult.parent.querySelector("#content").removeEventListener("onscroll", listener, false);
+        searchResult.parent.querySelector("#content").onscroll = listener;
     },
-    putLoader:function(){
+    putLoader: function () {
         if ((searchResult.currentPage + 1) * searchResult.itemCount < searchResult.totalItemCount) {
-            document.getElementById("bookList").style.height = (document.getElementById("bookList").clientHeight + 100) + "px";
+            var bookList = searchResult.parent.querySelector("#bookList");
+            bookList.style.height = (bookList.clientHeight + 100) + "px";
             var loader = document.createElement('li');
             loader.className = "books_loader";
             loader.id = "bookListLoader";
-            document.getElementById("bookList").appendChild(loader);
-            global.openLoader("bookListLoader");
+            bookList.appendChild(loader);
+            global.openLoader("#searchResult #bookListLoader");
         }
     },
-    search: function () {
-        global.openLoader("content");
-        global.get(global.apiAddress + "books/search?keyword=" + searchResult.keyword + "&count=" + searchResult.itemCount + "&page=" + searchResult.currentPage, function (results) {
-            var categoryContainer = document.getElementById("categories");
+    search: function (type) {
+        searchResult.parent = document.getElementById("searchResult");
+        var booksContainer = searchResult.parent.querySelector("#bookList");
+
+        global.openLoader("#searchResult #content");
+
+        global.get(global.apiAddress + "books/search?keyword=" + searchResult.keyword + "&count=" + searchResult.itemCount + "&page=" + searchResult.currentPage + "&categoryID=" + searchResult.selectedCategory, function (results) {
+            var categoryContainer = searchResult.parent.querySelector("#categories");
             if (categoryContainer.innerHTML == "") {
                 categoryContainer.innerHTML += '<div class="item fastbutton active" data-action="0">Tümü</div>';
                 for (var i = 0; i < results.FoundCategories.length; i++) {
                     categoryContainer.innerHTML += '<div class="item fastbutton"  data-action="' + results.FoundCategories[i].ID + '">' + results.FoundCategories[i].Name + '</div>';
                 }
 
-                new IScroll('#categories_wrapper', { scrollX: true, scrollY: false, mouseWheel: true, bounce: false });
+                var categoryScroll = new IScroll('#searchResult #categoriesWrapper', { scrollX: true, scrollY: false, mouseWheel: true, bounce: false });
 
-                Hammer(document.getElementById('categories_wrapper')).on("swipeleft", function (event) {
+                var categoryButtons = categoryContainer.querySelectorAll(".item");
+                for (var i = 0; i < categoryButtons.length; i++) {
+                    Hammer(categoryButtons[i]).on("tap", function (event) {
+
+                        [].forEach.call(categoryButtons, function (el) {
+                            el.removeClassName("active");
+                        });
+
+                        this.addClassName("active");
+
+                        categoryScroll.scrollToElement(this, 200, -100);
+
+                        booksContainer.innerHTML = "";
+                        searchResult.currentPage = 0;
+                        searchResult.selectedCategory = this.getAttribute("data-action");
+                        searchResult.search("categoryChange");
+                    });
+                }
+
+                Hammer(searchResult.parent.querySelector('#searchResult #categoriesWrapper')).on("swipeleft", function (event) {
                     event.stopPropagation();
                     event.preventDefault();
                     return false;
                 });
 
-                Hammer(document.getElementById('categories_wrapper')).on("swiperight", function (event) {
+                Hammer(searchResult.parent.querySelector('#searchResult #categoriesWrapper')).on("swiperight", function (event) {
                     event.stopPropagation();
                     event.preventDefault();
                     return false;
                 });
             }
 
-            var booksContainer = document.getElementById("bookList");
+
             var items = "";
             var elems = [];
             var fragment = document.createDocumentFragment();
@@ -102,37 +102,40 @@ var searchResult = {
 
 
 
-            imagesLoaded("#bookList", function (instance) {
-                document.getElementById("content").style.overflowY = "hidden";
-                if ($("#bookList").hasClass("isotope")) {
-                    $("#bookList").isotope("appended", $(elems),
+            imagesLoaded("#searchResult #bookList", function (instance) {
+                //searchResult.parent.querySelector("#content").style.overflowY = "hidden";
+                if ($("#searchResult #bookList").hasClass("isotope") && type == "appended") {
+                    $("#searchResult #bookList").isotope("appended", $(elems),
                         function () {
-                            if (document.getElementById("bookListLoader") != null)
-                                document.getElementById("bookListLoader").remove();
+                            if (searchResult.parent.querySelector("#bookListLoader") != null)
+                                searchResult.parent.querySelector("#bookListLoader").remove();
                             searchResult.loading = false;
-                            $("#bookList li").css({ opacity: 1 });
-                            document.getElementById("content").style.overflowY = "auto";
+                            //$("#searchResult #bookList li").css({ opacity: 1 });
+                            //searchResult.parent.querySelector("#content").style.overflowY = "auto";
                             searchResult.putLoader();
                             //searchResult.scroll.refresh();
                         })
                 }
-                else
-                    $("#bookList").isotope({
+                else {
+                    if ($("#searchResult #bookList").hasClass("isotope"))
+                        $("#searchResult #bookList").isotope('destroy');
+
+                    $("#searchResult #bookList").isotope({
                         itemSelector: '.item'
                     }, function () {
                         global.closeLoader();
-                        bookList.style.opacity = 1;
+                        booksContainer.style.opacity = 1;
                         searchResult.setupPaging();
                         searchResult.loading = false;
-                        $("#bookList li").css({ opacity: 1 });
-                        document.getElementById("content").style.overflowY = "auto";
+                        $("#searchResult #bookList li").css({ opacity: 1 });
+                        searchResult.parent.querySelector("#content").style.overflowY = "auto";
                         searchResult.putLoader();
                         //searchResult.scroll = new IScroll('#content', { probeType: 3});
                         //searchResult.scroll.on('scroll', searchResult.updatePosition);
 
                     });
+                }
 
-              
             });
         }, "jsonp");
     }

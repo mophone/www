@@ -358,6 +358,7 @@ img {
             right: 0px;
             top: 6px;
             z-index: 3;
+            display:none;
         }
 
 .menu_button {
@@ -371,6 +372,24 @@ img {
     left: 0px;
     top: 0px;
     z-index: 3;
+}
+
+    .menu_button.active {
+        background-color: #74d1be;
+    }
+
+    .back_button {
+    background: url("../img/back.png") 12pt no-repeat transparent;
+    background-size: 20px 20px;
+    -webkit-background-size: 20px 20px;
+    -moz-background-size: 20px 20px;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 3;
+    display:none;
 }
 
     .menu_button.active {
@@ -424,8 +443,8 @@ img {
 
     .sub_menu.scrollable .item {
         display: inline-block;
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .sub_menu .item.active {
@@ -443,6 +462,17 @@ img {
     position: absolute;
     z-index: 1;
     bottom: 0px;
+}
+
+.container section{
+    display:block;
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
 }
 
 .content {
@@ -474,7 +504,7 @@ img {
             height: 32px;
             margin-left: auto;
             margin-right: auto;
-            margin-top: 50px;
+            margin-top: 0px;
         }
 
 .book_list {

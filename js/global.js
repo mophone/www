@@ -88,16 +88,24 @@ var headerSearch = {
                 headerSearch.status = false;
             }, 300);
         }
+    },
+    submit: function () {
+        searchResult.keyword = document.getElementById("txtHeaderSearch").value;
+        searchResult.currentPage = 0;
+        global.goToPage("searchResult", true);
     }
 }
 
 var global = {
+    device: null,
     windowWidth: 0,
     windowHeight: 0,
     itemCount: 2,
     bookItemImageWidth: 0,
     apiAddress: "http://192.168.2.77:1002/",
     history: new Array(),
+    currentAjax: null,
+    activePage: null,
     setupBindings: function () {
 
         Hammer(document.getElementById("btnLeftMenu")).on("tap", function () {
@@ -115,9 +123,23 @@ var global = {
                 headerSearch.toggle();
         });
 
-        //document.getElementById("txtHeaderSearch").addEventListener("blur", function () {
-        //    headerSearch.toggle();
-        //});
+        Hammer(document.getElementById("btnBack")).on("tap", function () {
+            if (global.currentAjax != null)
+                global.currentAjax.abort();
+            
+            document.getElementById(global.activePage).remove();
+            document.getElementById(global.history[global.history.length - 1]).style.display = "block";
+            global.activePage = global.history[global.history.length - 1];
+
+            document.getElementById("txtHeaderSearch").value = "";
+            if(headerSearch.status)
+                headerSearch.toggle();
+        });
+
+        document.getElementById("txtHeaderSearch").addEventListener("blur", function () {
+            if (this.value == "")
+                headerSearch.toggle();
+        });
 
         Hammer(document).on("swipeleft", function (event) {
             leftMenu.close();
@@ -128,16 +150,7 @@ var global = {
         });
 
         document.getElementById("frmSearchBook").addEventListener("submit", function (e) {
-            document.getElementById("container").innerHTML = "";
-            global.openLoader("container");
-            searchResult.keyword = document.getElementById("txtHeaderSearch").value;
-            searchResult.currentPage = 0;
-            global.get("searchResult.html", function (data) {
-                document.getElementById("container").innerHTML = data;
-                searchResult.search();
-                document.getElementById("txtHeaderSearch").blur();
-            }, "");
-
+            headerSearch.submit();
             e.preventDefault();
             return false;
         });
@@ -157,8 +170,8 @@ var global = {
         });
     },
     get: function (url, callback, type) {
-        var ajax = $.ajax({
-            url: url,
+        global.currentAjax = $.ajax({
+            url: url + (type != "jsonp" ? ".html" : ""),
             dataType: type == "jsonp" ? "jsonp" : "html",
             method: "GET",
             beforeSend: function (xhr) {
@@ -172,31 +185,50 @@ var global = {
             }
         }).done(function (data) {
             if (type != "jsonp") {
-                document.getElementById("container").innerHTML = data;
-
-                switch (url) {
-                    case "home.html":
-                        homeBooks.loadPage();
-                        break;
-                    default:
-                        break;
-                }
+                global.closeLoader();
+                document.getElementById("container").insertAdjacentHTML("beforeend", data);
+                global.initPageFunctions(url);
             }
             if (callback != null)
                 callback(data);
         }).fail(function (jqXHR, textStatus, errorThrown) { });
 
-        return ajax;
     },
-    goToPage: function (url) {
-        $.bbq.pushState({ page: url });
+    goToPage: function (url, pushHistory) {
+        if (pushHistory) {
+            document.getElementById(global.activePage).style.display = "none";
+            global.history.push(global.activePage);
+            //global.history.push({ html: document.getElementById("container").innerHTML, page: global.activePage });
+            //if (global.device = "IOS") {
+            document.getElementById("btnBack").style.display = "block";
+            document.getElementById("btnLeftMenu").style.display = "none";
+            //}
+        }
+        global.activePage = url;
+        global.openLoader("#container");
+
+        global.currentAjax = global.get(url, null, null);
     },
-    openLoader: function (id) {
-        if (document.querySelector("#" + id + " .spinner") == null)
-            global.loadSpinner(document.getElementById(id));
+    initPageFunctions: function (url) {
+        switch (url) {
+            case "home":
+                homeBooks.loadPage();
+                break;
+            case "searchResult":
+                searchResult.search();
+                document.getElementById("txtHeaderSearch").blur();
+                break;
+            default:
+                break;
+        }
+    },
+    openLoader: function (query) {
+        if (document.querySelector(query + " .spinner") == null)
+            global.loadSpinner(document.querySelector(query));
     },
     closeLoader: function () {
-        document.querySelector(".spinner").remove();
+        if (document.querySelector(".spinner") != null)
+            document.querySelector(".spinner").remove();
     },
     loadSpinner: function (target) {
         var opts = {
@@ -214,7 +246,7 @@ var global = {
             hwaccel: false, // Whether to use hardware acceleration
             className: 'spinner', // The CSS class to assign to the spinner
             zIndex: 2e9, // The z-index (defaults to 2000000000)
-            top: 'auto', // Top position relative to parent in px
+            top: '20px', // Top position relative to parent in px
             left: 'auto' // Left position relative to parent in px
         };
         var spinner = new Spinner(opts).spin(target);
@@ -262,17 +294,5 @@ $(document).ready(function () {
 
     initFastButtons();
 
-    global.goToPage("home.html");
-});
-
-
-
-$(window).bind('hashchange', function (e) {
-    var state = $.bbq.getState();
-    if (typeof state.page != "undefined") {
-        global.get(state.page, null, null);
-    }
-    else {
-        global.goToPage("home.html");
-    }
+    global.goToPage("home", false);
 });

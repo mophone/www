@@ -598,8 +598,8 @@ var IScroll = (function (window, document, Math) {
         },
 
         _resize: function () {
-
             var that = this;
+
             clearTimeout(this.resizeTimeout);
 
             this.resizeTimeout = setTimeout(function () {
@@ -608,7 +608,6 @@ var IScroll = (function (window, document, Math) {
         },
 
         resetPosition: function (time) {
-            
             var x = this.x,
                 y = this.y;
 
@@ -644,7 +643,6 @@ var IScroll = (function (window, document, Math) {
         },
 
         refresh: function () {
-
             var rf = this.wrapper.offsetHeight;		// Force reflow
 
             this.wrapperWidth = this.wrapper.clientWidth;
@@ -691,15 +689,15 @@ var IScroll = (function (window, document, Math) {
             if (!this._events[type]) {
                 this._events[type] = [];
             }
-            
+
             this._events[type].push(fn);
         },
 
         _execEvent: function (type) {
-           
             if (!this._events[type]) {
                 return;
             }
+
             var i = 0,
                 l = this._events[type].length;
 
@@ -926,7 +924,6 @@ var IScroll = (function (window, document, Math) {
             }
 
             this.on('refresh', function () {
-
                 if (this.indicator1) {
                     this.indicator1.refresh();
                 }
@@ -1048,7 +1045,6 @@ var IScroll = (function (window, document, Math) {
             }
 
             this.on('refresh', function () {
-                
                 var i = 0, l,
                     m = 0, n,
                     cx, cy,

@@ -22,7 +22,7 @@
     <script src="./js/searchResult.js"></script>
     <script src="http://localhost/appgyver/cordova.js"></script>
     <script src="cordova.js"></script>
-     <script src="components/steroids-js/steroids.js"></script>
+    <script src="components/steroids-js/steroids.js"></script>
     <script type="text/javascript" charset="utf-8">
         document.addEventListener("deviceready", onDeviceReady, false);
         var fileSystemRoot = null;
@@ -31,14 +31,14 @@
 
 
         function onDeviceReady() {
-            alert(window.device.platform);
+            global.device = window.device.platform;
 
             document.addEventListener("backbutton", function (e) {
-               
                 e.preventDefault();
                 alert("");
                 history.go(-1);
                 navigator.app.backHistory();
+                return false;
             }, false);
 
         }
@@ -58,18 +58,12 @@
             <div class="cancel_search_button" id="btnCancelSearch"></div>
         </div>
     </div>
+    <div class="back_button hoverable " id="btnBack"></div>
     <div class="menu_button hoverable " id="btnLeftMenu"></div>
     <div class="search_button hoverable " id="btnHeaderSearch"></div>
 
-
-
-    <div class="clear"></div>
     <div id="container" class="container">
     </div>
-
-    <script>
-        
-    </script>
 </body>
 </html>
 
