@@ -7,19 +7,24 @@
     <link href="./css/global.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/index.css" />
     <link rel="stylesheet" href="./css/fonts.css" />
+    <link href="./css/bookDetail.css" rel="stylesheet" />
+
     <script src="./js/plugins/jquery-1.10.2.js"></script>
-    <script src="js/plugins/jquery.transitions.js"></script>
-    <script src="js/plugins/spin.js"></script>
-    <script src="js/plugins/masonry.js"></script>
-    <script src="js/plugins/isotope.js"></script>
+    <script src="./js/plugins/jquery.transitions.js"></script>
+    <script src="./js/plugins/jquery.bbq.js"></script>
+    <script src="./js/plugins/spin.js"></script>
     <script src="./js/plugins/imagesloaded.js"></script>
-    <script src="js/plugins/fastclick.js"></script>
-    <script src="js/plugins/hammer.js"></script>
-    <script src="js/plugins/iscroll-lite.js"></script>
-    <script src="js/plugins/jquery.bbq.js"></script>
+    <script src="./js/plugins/isotope.js"></script>
+    <script src="./js/plugins/fastclick.js"></script>
+    <script src="./js/plugins/hammer.js"></script>
+    <script src="./js/plugins/iscroll-lite.js"></script>
+
     <script src="./js/global.js"></script>
     <script src="./js/home.js"></script>
     <script src="./js/searchResult.js"></script>
+    <script src="./js/bookDetail.js"></script>
+      <script src="./js/read.js"></script>
+
     <script src="http://localhost/appgyver/cordova.js"></script>
     <script src="cordova.js"></script>
     <script src="components/steroids-js/steroids.js"></script>
@@ -32,7 +37,7 @@
 
         function onDeviceReady() {
             global.device = window.device.platform;
-
+            
             document.addEventListener("backbutton", function (e) {
                 e.preventDefault();
                 alert("");
@@ -49,7 +54,7 @@
     <div class="left_menu" id="leftMenu" data-closed="true">
     </div>
 
-    <div class="header">
+    <div class="header" id="layoutHeader">
         <div class="title" id="headerTitle">mobidik</div>
         <div class="search_area" id="headerSearchArea">
             <form action="#" id="frmSearchBook">

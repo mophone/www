@@ -92,7 +92,13 @@ var headerSearch = {
     submit: function () {
         searchResult.keyword = document.getElementById("txtHeaderSearch").value;
         searchResult.currentPage = 0;
-        global.goToPage("searchResult", true);
+
+        if (global.activePage != "searchResult") {
+            global.goToPage("searchResult", true);
+        }
+        else {
+            global.goToPage("searchResult", false);
+        }
     }
 }
 
@@ -104,8 +110,13 @@ var global = {
     bookItemImageWidth: 0,
     apiAddress: "http://192.168.2.77:1002/",
     history: new Array(),
+    statusHistory: new Array(),
+    loadHistory: new Array(),
     currentAjax: null,
     activePage: null,
+    firstLoad: true,
+    returnBack: false,
+    currentPageLevel: 1,
     setupBindings: function () {
 
         Hammer(document.getElementById("btnLeftMenu")).on("tap", function () {
@@ -124,16 +135,7 @@ var global = {
         });
 
         Hammer(document.getElementById("btnBack")).on("tap", function () {
-            if (global.currentAjax != null)
-                global.currentAjax.abort();
-            
-            document.getElementById(global.activePage).remove();
-            document.getElementById(global.history[global.history.length - 1]).style.display = "block";
-            global.activePage = global.history[global.history.length - 1];
-
-            document.getElementById("txtHeaderSearch").value = "";
-            if(headerSearch.status)
-                headerSearch.toggle();
+            global.goToBack();
         });
 
         document.getElementById("txtHeaderSearch").addEventListener("blur", function () {
@@ -171,7 +173,7 @@ var global = {
     },
     get: function (url, callback, type) {
         global.currentAjax = $.ajax({
-            url: url + (type != "jsonp" ? ".html" : ""),
+            url: url + (type != "jsonp" ? ".html?t=" + (new Date().getTime()) : ""),
             dataType: type == "jsonp" ? "jsonp" : "html",
             method: "GET",
             beforeSend: function (xhr) {
@@ -185,8 +187,9 @@ var global = {
             }
         }).done(function (data) {
             if (type != "jsonp") {
-                global.closeLoader();
+                global.closeLoader("container");
                 document.getElementById("container").insertAdjacentHTML("beforeend", data);
+                document.getElementById(global.activePage).style.zIndex = global.currentPageLevel;
                 global.initPageFunctions(url);
             }
             if (callback != null)
@@ -194,29 +197,59 @@ var global = {
         }).fail(function (jqXHR, textStatus, errorThrown) { });
 
     },
-    goToPage: function (url, pushHistory) {
+    goToPage: function (url, pushHistory, parameters) {
         if (pushHistory) {
-            //document.getElementById(global.activePage).style.display = "none";
-            global.history.push(global.activePage);
-            //global.history.push({ html: document.getElementById("container").innerHTML, page: global.activePage });
+            $.bbq.pushState({ "page": url });
+        }
+        else {
+            if (document.getElementById(global.activePage) != null)
+                document.getElementById(global.activePage).remove();
+
+            global.activePage = url;
+            global.openLoader("#container");
+
+            global.currentAjax = global.get(url, null, null);
+        }
+    },
+    goToBack: function () {
+        if (global.currentAjax != null)
+            global.currentAjax.abort();
+
+        document.getElementById(global.activePage).remove();
+        document.getElementById(global.history[global.history.length - 1]).style.display = "block";
+        global.activePage = global.history[global.history.length - 1];
+        global.history.splice(global.history.length - 1, 1);
+        if (global.history.length == 0) {
             //if (global.device = "IOS") {
-            document.getElementById("btnBack").style.display = "block";
-            document.getElementById("btnLeftMenu").style.display = "none";
+            document.getElementById("btnBack").style.display = "none";
+            document.getElementById("btnLeftMenu").style.display = "block";
             //}
         }
-        global.activePage = url;
-        global.openLoader("#container");
-
-        global.currentAjax = global.get(url, null, null);
+        global.currentPageLevel--;
+        $.bbq.removeState();
+        global.returnBack = true;
+        global.statusHistory[global.activePage] = true;
+        document.getElementById("txtHeaderSearch").value = "";
+        if (headerSearch.status)
+            headerSearch.toggle();
     },
     initPageFunctions: function (url) {
         switch (url) {
             case "home":
                 homeBooks.loadPage();
+                if (global.firstLoad) {
+                    global.hashChange();
+                    global.firstLoad = false;
+                }
                 break;
             case "searchResult":
                 searchResult.search();
                 document.getElementById("txtHeaderSearch").blur();
+                break;
+            case "bookDetail":
+                var state = $.bbq.getState();
+                bookDetail.currentBookID = state.bookID;
+                bookDetail.setupBook();
                 break;
             default:
                 break;
@@ -226,9 +259,9 @@ var global = {
         if (document.querySelector(query + " .spinner") == null)
             global.loadSpinner(document.querySelector(query));
     },
-    closeLoader: function () {
-        if (document.querySelector(".spinner") != null)
-            document.querySelector(".spinner").remove();
+    closeLoader: function (id) {
+        if (document.querySelector("#" + id + " .spinner") != null)
+            document.querySelector("#" + id + " .spinner").remove();
     },
     loadSpinner: function (target) {
         var opts = {
@@ -265,13 +298,67 @@ var global = {
 
         global.bookItemImageWidth = Math.round(((global.windowWidth - global.itemCount * 16) / global.itemCount) * window.devicePixelRatio);
         //alert(((global.windowWidth - global.itemCount * 16) / global.itemCount));
+    },
+    loadStars: function () {
+        var ratingObjects = document.querySelectorAll(".rating");
+        for (var i = 0; i < ratingObjects.length; i++) {
+            var object = ratingObjects[i];
+            object.innerHTML = "<div class='full'></div>";
+            var width = utils.parseDouble(object.getAttribute("data-value")) * 16;
+            object.querySelector(".full").style.width = width + "px";
+        }
+    },
+    hashChange: function () {
+        var state = $.bbq.getState();
+        var page = "";
+        if (typeof state.page != "undefined")
+            page = state.page;
+        else
+            page = "home";
+        if ((!global.firstLoad || (global.firstLoad && page != "home")) && !global.returnBack) {
+            if (global.history.indexOf(page) > -1) {
+                global.goToBack();
+            }
+            else {
+                if (!global.loadHistory[global.activePage])
+                    global.statusHistory[global.activePage] = false;
+                else
+                    document.getElementById(global.activePage).style.display = "none";
+                document.getElementById(global.activePage).style.zIndex = global.currentPageLevel;
+                global.currentPageLevel++;
+                global.history.push(global.activePage);
+                //if (global.device = "IOS") {
+                document.getElementById("btnBack").style.display = "block";
+                document.getElementById("btnLeftMenu").style.display = "none";
+
+                global.activePage = state.page;
+
+                global.openLoader("#container");
+                global.statusHistory[global.activePage] = true;
+                global.currentAjax = global.get(state.page, null, null);
+            }
+        }
+        global.returnBack = false;
+    }
+}
+
+var utils = {
+    formatPrice: function (price) {
+        var dplaces = 2;
+        price = price.toFixed(dplaces) + " TL";
+        return price;
+    },
+    parseDouble: function (val) {
+        val = val.toString().replace(",", ".");
+        val = (Math.round(val * 100) / 100);
+        return parseFloat(val);
     }
 }
 
 var books = {
     getBookItemHtml: function (bookID, bookName) {
-        return '<li class="item" style="width:' + ((global.windowWidth - global.itemCount * 16) / global.itemCount) + 'px;">' +
-                   '<div class="cover">' +
+        return '<li  class="item" style="width:' + ((global.windowWidth - global.itemCount * 16) / global.itemCount) + 'px;">' +
+                   '<a href="#page=bookDetail&bookID=' + bookID + '"><div class="cover">' +
                          '<img width="' + ((global.windowWidth - global.itemCount * 16) / global.itemCount) + 'px" src="http://www.mobidik.com/resim/kitap/' + bookID + '/' + global.bookItemImageWidth + '/0.jpg" />' +
                      '</div>' +
                      '<div class="info">' +
@@ -282,8 +369,12 @@ var books = {
                          'Arzach Mills' +
                          '</div>' +
                      '</div>' +
-                 '</li>';
+                 '</a></li>';
     },
+    openBook: function (bookID) {
+        bookDetail.currentBookID = bookID;
+        global.goToPage("bookDetail", true, [{ "bookID": bookID }]);
+    }
 }
 $(document).ready(function () {
 
@@ -295,4 +386,11 @@ $(document).ready(function () {
     initFastButtons();
 
     global.goToPage("home", false);
+
+
+    $(window).bind('hashchange', function (e) {
+        global.hashChange();
+    });
+
 });
+

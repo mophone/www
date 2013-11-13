@@ -34,12 +34,14 @@ var searchResult = {
         }
     },
     search: function (type) {
+       
         searchResult.parent = document.getElementById("searchResult");
         var booksContainer = searchResult.parent.querySelector("#bookList");
 
         global.openLoader("#searchResult #content");
 
         global.get(global.apiAddress + "books/search?keyword=" + searchResult.keyword + "&count=" + searchResult.itemCount + "&page=" + searchResult.currentPage + "&categoryID=" + searchResult.selectedCategory, function (results) {
+
             var categoryContainer = searchResult.parent.querySelector("#categories");
             if (categoryContainer.innerHTML == "") {
                 categoryContainer.innerHTML += '<div class="item fastbutton active" data-action="0">Tümü</div>';
@@ -47,8 +49,8 @@ var searchResult = {
                     categoryContainer.innerHTML += '<div class="item fastbutton"  data-action="' + results.FoundCategories[i].ID + '">' + results.FoundCategories[i].Name + '</div>';
                 }
                 //
-                //var categoryScroll = new IScroll('#searchResult #categoriesWrapper', { scrollX: true, scrollY: false, mouseWheel: true, bounce: false });
-                alert("a");
+                var categoryScroll = new IScroll('#searchResult #categoriesWrapper', { scrollX: true, scrollY: false, mouseWheel: true, bounce: false });
+
                 var categoryButtons = categoryContainer.querySelectorAll(".item");
                 for (var i = 0; i < categoryButtons.length; i++) {
                     Hammer(categoryButtons[i]).on("tap", function (event) {
@@ -67,7 +69,6 @@ var searchResult = {
                         searchResult.search("categoryChange");
                     });
                 }
-                alert("b");
                 Hammer(searchResult.parent.querySelector('#searchResult #categoriesWrapper')).on("swipeleft", function (event) {
                     event.stopPropagation();
                     event.preventDefault();
@@ -102,7 +103,7 @@ var searchResult = {
 
 
 
-            imagesLoaded("#searchResult #bookList", function (instance) {
+            $("#home #bookList").imagesLoaded(function (instance) {
                 //searchResult.parent.querySelector("#content").style.overflowY = "hidden";
                 if ($("#searchResult #bookList").hasClass("isotope") && type == "appended") {
                     $("#searchResult #bookList").isotope("appended", $(elems),

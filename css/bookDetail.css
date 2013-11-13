@@ -1,0 +1,205 @@
+﻿#bookDetail {
+    overflow: hidden;
+    height: 100%;
+}
+
+    #bookDetail #scroller {
+        position: relative;
+    }
+
+    #bookDetail .book_detail_content {
+        display: none;
+        height: 100%;
+        position: relative;
+    }
+
+    #bookDetail .breadcrumb {
+        font-size: 12px;
+        padding: 15px;
+        color: #999;
+        height: 45px;
+        z-index: 2;
+        position: relative;
+        background: #efefeb;
+    }
+
+    #bookDetail .cover {
+        position: absolute;
+        top: 0px;
+        bottom: 50px;
+        z-index: 1;
+        width: 100%;
+        background-size: 100% auto;
+        -webkit-background-size: 100% auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        background-color: #000;
+    }
+
+    #bookDetail .title_background {
+        -webkit-filter: blur(4px);
+        -moz-filter: blur(4px);
+        -o-filter: blur(4px);
+        -ms-filter: blur(4px);
+        filter: blur(4px);
+        position: fixed;
+        top: 40px;
+        left: 0px;
+        right: 0px;
+        z-index: 2;
+        padding: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: none;
+        height: 70px;
+        background-size: 100% auto;
+        -webkit-background-size: 100% auto;
+        background-position: center top 10px;
+        background-repeat: no-repeat;
+        background-color:transparent;
+    }
+
+    #bookDetail .title {
+        position: fixed;
+        top: 50px;
+        left: 0px;
+        right: 0px;
+        z-index: 3;
+        padding: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: none;
+        overflow:hidden;
+        background: rgba(0,0,0,0.5);
+        width:100%;
+        box-sizing:content-box;
+    }
+
+        #bookDetail .title .avatar {
+            display:table-cell;
+            width:50px;
+            overflow:hidden;
+        }
+
+            #bookDetail .title .avatar img {
+                border-radius: 25px;
+                display:block;
+            }
+
+        #bookDetail .title .book_info {
+            display:table-cell;
+            color: #fff;
+            vertical-align:top;
+            overflow:hidden;
+        }
+
+            #bookDetail .title .book_info .name {
+                font-size: 18px;
+                font-family: "Open Sans";
+                overflow:hidden;
+            }
+
+            #bookDetail .title .book_info .authors {
+                font-size: 12px;
+                margin-top: 2px;
+                overflow:hidden;
+            }
+
+        #bookDetail .title.fixed_title {
+            position: fixed;
+            top: 0px;
+            display: none;
+        }
+
+
+    #bookDetail .purchase {
+        position: absolute;
+        bottom: 65px;
+        left: 0px;
+        right: 0px;
+        background: rgba(0,0,0,0.5);
+        z-index: 2;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+
+        #bookDetail .purchase .price {
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: "Open Sans";
+            float: left;
+            line-height: 35px;
+        }
+
+        #bookDetail .purchase .rating{
+            float:left;
+            margin-top:10px;
+        }
+
+        #bookDetail .purchase .comment_count{
+            float:left;
+            font-size:11px;
+            color:#fff;
+            margin-left:5px;
+            line-height:38px;
+        }
+
+
+        #bookDetail .purchase .button {
+            float: right;
+        }
+
+    #bookDetail .menu {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: #fff;
+        z-index: 2;
+        display: table;
+        width: 100%;
+    }
+
+        #bookDetail .menu li {
+            display: table-cell;
+            background-position: center top 10px;
+            background-repeat: no-repeat;
+            background-size: 30px 30px;
+            padding-top: 45px;
+            text-align: center;
+            float: none;
+            white-space: nowrap;
+            list-style-type: none;
+            height: 65px;
+            color: #666;
+            width: 25%;
+        }
+
+            #bookDetail .menu li.active {
+                background-color: #f8f8f5;
+            }
+
+            #bookDetail .menu li.details {
+                background-image: url(/img/detail.png);
+            }
+
+            #bookDetail .menu li.comments {
+                background-image: url(/img/comment.png);
+            }
+
+            #bookDetail .menu li.shelves {
+                background-image: url(/img/library.png);
+            }
+
+            #bookDetail .menu li.share {
+                background-image: url(/img/share.png);
+            }
+
+    #bookDetail .book_detail_sub_content {
+        height: 500px;
+    }
+

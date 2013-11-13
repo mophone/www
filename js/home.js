@@ -9,7 +9,7 @@ var homeBooks = {
 
     },
     getBooks: function () {
-
+        global.loadHistory["home"] = false;
         var bookList = document.getElementById("bookList");
 
         //document.getElementById("content").style.overflowY = "hidden";
@@ -42,7 +42,7 @@ var homeBooks = {
 
             bookList.innerHTML = html;
 
-            imagesLoaded('#home #bookList', function (instance) {
+            $("#home #bookList").imagesLoaded(function (instance) {
                 if ($("#home #bookList").hasClass("isotope"))
                     $("#home #bookList").isotope('destroy');
 
@@ -50,11 +50,17 @@ var homeBooks = {
                     itemSelector: '.item',
                     resizable: false
                 }, function () {
-                    global.closeLoader();
+                    global.closeLoader("home");
                     //document.getElementById("content").style.overflowY = "auto";
                     bookList.style.opacity = 1;
                     $("#home #bookList li").css({ opacity: 1 });
-
+                    global.loadHistory["home"] = true;
+                    if (global.statusHistory["home"] != null) {
+                        if (!global.statusHistory["home"])
+                            document.getElementById("home").style.display = "none";
+                        else
+                            document.getElementById("home").style.display = "block";
+                    }
                     //myScroll = new IScroll('#content');
                 });
             });

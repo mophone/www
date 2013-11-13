@@ -149,8 +149,6 @@ img {
     outline: none;
 }
 
-* {
-}
 
 .left_menu_curtain {
     position: absolute;
@@ -323,8 +321,8 @@ img {
             color: #fff;
             padding-left: 25px;
             width: 100%;
-            border-radius:0px;
-            font-size:13px;
+            border-radius: 0px;
+            font-size: 13px;
         }
 
             .header .search_area input:focus {
@@ -358,7 +356,7 @@ img {
             right: 0px;
             top: 6px;
             z-index: 3;
-            display:none;
+            display: none;
         }
 
 .menu_button {
@@ -378,7 +376,7 @@ img {
         background-color: #74d1be;
     }
 
-    .back_button {
+.back_button {
     background: url("../img/back.png") 12pt no-repeat transparent;
     background-size: 20px 20px;
     -webkit-background-size: 20px 20px;
@@ -389,12 +387,12 @@ img {
     left: 0px;
     top: 0px;
     z-index: 3;
-    display:none;
+    display: none;
 }
 
-    .menu_button.active {
-        background-color: #74d1be;
-    }
+.menu_button.active {
+    background-color: #74d1be;
+}
 
 
 .search_button {
@@ -417,7 +415,7 @@ img {
     -moz-box-shadow: 0px 1px 4px rgba(0,0,0,0.2);
     -webkit-box-shadow: 0px 1px 4px rgba(0,0,0,0.2);
     box-shadow: 0px 1px 4px rgba(0,0,0,0.2);
-    z-index: 2;
+    z-index: 3;
 }
 
 .sub_menu {
@@ -464,16 +462,17 @@ img {
     bottom: 0px;
 }
 
-.container section{
-    display:block;
-    width:100%;
-    height:100%;
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-}
+    .container section {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #f8f8f5;
+    }
 
 .content {
     top: 44px;
@@ -523,6 +522,10 @@ img {
         overflow: hidden;
         margin: 8px;
         opacity: 0;
+    }
+
+    .book_list > li a:link{
+        text-decoration:none;
     }
 
         .book_list > li .info {
@@ -584,3 +587,41 @@ img {
         -o-transition-duration: 0s;
         transition-duration: 0s;
     }
+
+
+.button {
+    padding-top: 10px;
+    padding-bottom: 7px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: #fff;
+}
+
+    .button.confirm {
+        color: #fff;
+        background: #77c249;
+        border-bottom: 3px solid #5ea433;
+    }
+
+.rating {
+    background: url("/img/star_empty.png") repeat-x;
+    background-size: 16px 16px;
+    -webkit-background-size: 16px 16px;
+    height: 16px;
+    position: relative;
+    width: 80px;
+}
+
+    .rating .full {
+        background: url("/img/star.png") repeat-x;
+        background-size: 16px 16px;
+        -webkit-background-size: 16px 16px;
+        height: 16px;
+        position: absolute;
+        z-index: 2;
+        width: 0px;
+    }
+
+        .rating .full.hover {
+            background: url("/img/star_hover.png") repeat-x;
+        }
