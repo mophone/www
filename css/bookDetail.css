@@ -185,19 +185,19 @@
             }
 
             #bookDetail .menu li.details {
-                background-image: url(/img/detail.png);
+                background-image: url(../img/detail.png);
             }
 
             #bookDetail .menu li.comments {
-                background-image: url(/img/comment.png);
+                background-image: url(../img/comment.png);
             }
 
             #bookDetail .menu li.shelves {
-                background-image: url(/img/library.png);
+                background-image: url(../img/library.png);
             }
 
             #bookDetail .menu li.share {
-                background-image: url(/img/share.png);
+                background-image: url(../img/share.png);
             }
 
     #bookDetail .book_detail_sub_content {
