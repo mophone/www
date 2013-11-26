@@ -35,6 +35,9 @@
         background-repeat: no-repeat;
         overflow: hidden;
         background-color: #000;
+        transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -webkit-transform: translate3d(0,0,0);
     }
 
     .book_detail .title_background {
@@ -421,29 +424,29 @@
                     color: #999;
                 }
 
-                .book_detail .detail_share{
-                    padding:20px;
-                    display:none;
-                }
+    .book_detail .detail_share {
+        padding: 20px;
+        display: none;
+    }
 
-                 .book_detail .detail_share .button{
-                    width:100%;
-                    padding-top:20px;
-                    padding-bottom:20px;
-                    color:#fff;
-                    font-size:18px;
-                    text-align:center;
-                    margin-bottom:10px;
-                }
+        .book_detail .detail_share .button {
+            width: 100%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-                 .book_detail .detail_share .button.facebook{
-                     background:#47639E;
-                 }
+            .book_detail .detail_share .button.facebook {
+                background: #47639E;
+            }
 
-                 .book_detail .detail_share .button.twitter{
-                     background:#52C2F6;
-                 }
+            .book_detail .detail_share .button.twitter {
+                background: #52C2F6;
+            }
 
-                 .book_detail .detail_share .button.google{
-                     background:#DD4B39;
-                 }
+            .book_detail .detail_share .button.google {
+                background: #DD4B39;
+            }
