@@ -458,7 +458,7 @@ var books = {
     }
 }
 $(document).ready(function () {
-    global.ready();
+    //global.ready();
 
 
 });

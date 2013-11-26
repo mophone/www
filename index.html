@@ -41,7 +41,7 @@
 
         function onDeviceReady() {
             global.device = window.device.platform;
-            setTimeout(function () { global.ready(); }, 5000);
+            setTimeout(function () { global.ready(); }, 1000);
             document.addEventListener("backbutton", function (e) {
                 if (leftMenu.openned) {
                     leftMenu.close();
