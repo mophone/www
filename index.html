@@ -47,12 +47,15 @@
                     leftMenu.close();
                     return false;
                 }
-                e.preventDefault();
-                //global.goToBack();
+                if (global.history.length > 0) {
+                    window.history.back();
+                    e.preventDefault();
+                    //global.goToBack();
 
-                //history.go(-1);
-                //navigator.app.backHistory();
-                return false;
+                    //history.go(-1);
+                    //navigator.app.backHistory();
+                    return false;
+                }
             }, false);
 
         }
