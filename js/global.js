@@ -22,10 +22,11 @@ Element.prototype.remove = function () {
 
 var leftMenu = {
     status: false,
+    openned: false,
     curtainDisplay: null,
     toggle: function () {
         var menu = document.getElementById("leftMenu");
-        if (menu.getAttribute('data-closed') == "true") {
+        if (!leftMenu.openned) {
             leftMenu.open();
         }
         else {
@@ -46,13 +47,20 @@ var leftMenu = {
 
         if (!leftMenu.status) {
             setTimeout(function () {
-                $.get("./leftMenu.html", function (data) {
+                $.get("./leftMenu.html?t=" + (new Date().getTime()), function (data) {
                     menu.insertAdjacentHTML("afterbegin", data);
+                    var links = document.querySelectorAll("menu a");
+                    for (var i = 0; i < links.length; i++) {
+                        links[i].addEventListener("click", function () {
+                            alert("");
+                        });
+                    }
                 });
             }, 500);
 
             leftMenu.status = true;
         }
+        leftMenu.openned = true;
     },
     close: function () {
         document.getElementById("content").style.overflowY = "auto";
@@ -67,6 +75,7 @@ var leftMenu = {
             curtain.style.right = "auto";
         }, 300);
         menu.setAttribute('data-closed', true);
+        leftMenu.openned = false;
     }
 }
 
@@ -90,8 +99,7 @@ var headerSearch = {
         }
     },
     submit: function () {
-        searchResult.keyword = document.getElementById("txtHeaderSearch").value;
-        searchResult.currentPage = 0;
+
 
         if (global.activePage != "searchResult") {
             global.goToPage("searchResult", true);
@@ -112,16 +120,17 @@ var global = {
     history: new Array(),
     statusHistory: new Array(),
     loadHistory: new Array(),
+    hashHistory: new Array(),
+    currentHash: null,
     currentAjax: null,
     activePage: null,
     firstLoad: true,
     returnBack: false,
+    openPage: false,
     currentPageLevel: 1,
     setupBindings: function () {
-
         Hammer(document.getElementById("btnLeftMenu")).on("tap", function () {
             leftMenu.toggle();
-
         });
 
         Hammer(document.getElementById("leftMenuCurtain")).on("tap", function () {
@@ -135,7 +144,7 @@ var global = {
         });
 
         Hammer(document.getElementById("btnBack")).on("tap", function () {
-            global.goToBack();
+            window.history.back();
         });
 
         document.getElementById("txtHeaderSearch").addEventListener("blur", function () {
@@ -159,6 +168,10 @@ var global = {
 
         document.getElementById("btnCancelSearch").addEventListener("click", function () {
 
+        });
+
+        $(document).on("click", "a", function () {
+            global.openPage = true;
         });
     },
     loadHoverable: function () {
@@ -189,7 +202,8 @@ var global = {
             if (type != "jsonp") {
                 global.closeLoader("container");
                 document.getElementById("container").insertAdjacentHTML("beforeend", data);
-                document.getElementById(global.activePage).style.zIndex = global.currentPageLevel;
+                document.getElementById("container").lastElementChild.setAttribute("id", "page_" + global.currentPageLevel);
+                document.getElementById("page_" + global.currentPageLevel).style.zIndex = global.currentPageLevel;
                 global.initPageFunctions(url);
             }
             if (callback != null)
@@ -199,6 +213,7 @@ var global = {
     },
     goToPage: function (url, pushHistory, parameters) {
         if (pushHistory) {
+            global.openPage = true;
             $.bbq.pushState({ "page": url });
         }
         else {
@@ -211,22 +226,39 @@ var global = {
             global.currentAjax = global.get(url, null, null);
         }
     },
-    goToBack: function () {
+    goToBack: function (index) {
+        var state = $.bbq.getState();
         if (global.currentAjax != null)
             global.currentAjax.abort();
 
-        document.getElementById(global.activePage).remove();
-        document.getElementById(global.history[global.history.length - 1]).style.display = "block";
-        global.activePage = global.history[global.history.length - 1];
-        global.history.splice(global.history.length - 1, 1);
+        if (index <= 0) {
+            document.getElementById("page_" + (global.currentPageLevel)).remove();
+            global.activePage = global.history[global.history.length - 1];
+            global.history.splice(global.history.length - 1, 1);
+            global.hashHistory.splice(global.hashHistory.length - 1, 1);
+
+            global.currentPageLevel--;
+        }
+        else {
+            var length = global.history.length;
+            for (var i = index ; i < length; i++) {
+                document.getElementById("page_" + (i + 2)).remove();
+                global.currentPageLevel--;
+                global.activePage = global.history[global.history.length - 1];
+                global.history.splice(global.history.length - 1, 1);
+                global.hashHistory.splice(global.history.length - 1, 1);
+            }
+        }
+
         if (global.history.length == 0) {
             //if (global.device = "IOS") {
             document.getElementById("btnBack").style.display = "none";
             document.getElementById("btnLeftMenu").style.display = "block";
             //}
         }
-        global.currentPageLevel--;
-        $.bbq.removeState();
+
+        document.getElementById("page_" + global.currentPageLevel).style.display = "block";
+
         global.returnBack = true;
         global.statusHistory[global.activePage] = true;
         document.getElementById("txtHeaderSearch").value = "";
@@ -237,19 +269,34 @@ var global = {
         switch (url) {
             case "home":
                 homeBooks.loadPage();
+                homeBooks.pageID = "page_" + global.currentPageLevel;
                 if (global.firstLoad) {
                     global.hashChange();
                     global.firstLoad = false;
                 }
                 break;
             case "searchResult":
-                searchResult.search();
+                var state = $.bbq.getState();
+                var searchResultObject = new searchResult("page_" + global.currentPageLevel);
+                var keyword = document.getElementById("txtHeaderSearch").value;
+                if (keyword != "") {
+                    searchResultObject.keyword = keyword;
+                }
+                if (typeof state.category != "undefined") {
+                    searchResultObject.selectedCategory = state.category;
+                    searchResultObject.keyword = "";
+                }
+
+                searchResultObject.search();
+
                 document.getElementById("txtHeaderSearch").blur();
                 break;
             case "bookDetail":
                 var state = $.bbq.getState();
-                bookDetail.currentBookID = state.bookID;
-                bookDetail.setupBook();
+                new bookDetail("page_" + global.currentPageLevel, state.bookID);
+                break;
+            case "categories":
+                categories.getCategories();
                 break;
             default:
                 break;
@@ -309,36 +356,70 @@ var global = {
         }
     },
     hashChange: function () {
+        if (leftMenu.openned) {
+            leftMenu.close();
+        }
         var state = $.bbq.getState();
+
         var page = "";
         if (typeof state.page != "undefined")
             page = state.page;
         else
             page = "home";
+
+        if (typeof state.unique != "undefined") {
+            global.openPage = false;
+            //for (var i = 2; i <= global.history.length; i++) {
+            //    document.getElementById("page_" + i).remove();
+            //    global.currentPageLevel--;
+            //    global.activePage = global.history[global.history.length - 1];
+            //    global.history.splice(i, 1);
+            //    global.hashHistory.splice(i, 1);
+            //}
+        }
+
         if ((!global.firstLoad || (global.firstLoad && page != "home")) && !global.returnBack) {
-            if (global.history.indexOf(page) > -1) {
-                global.goToBack();
+            if (global.history.indexOf(page) > -1 && !global.openPage) {
+                global.goToBack(global.history.indexOf(page));
             }
             else {
-                if (!global.loadHistory[global.activePage])
-                    global.statusHistory[global.activePage] = false;
+                if (!global.loadHistory["page_" + global.currentPageLevel])
+                    global.statusHistory["page_" + global.currentPageLevel] = false;
                 else
-                    document.getElementById(global.activePage).style.display = "none";
-                document.getElementById(global.activePage).style.zIndex = global.currentPageLevel;
+                    document.getElementById("page_" + global.currentPageLevel).style.display = "none";
+
+                document.getElementById("page_" + global.currentPageLevel).style.zIndex = global.currentPageLevel;
                 global.currentPageLevel++;
                 global.history.push(global.activePage);
+                global.hashHistory.push(global.currentHash);
                 //if (global.device = "IOS") {
                 document.getElementById("btnBack").style.display = "block";
                 document.getElementById("btnLeftMenu").style.display = "none";
 
                 global.activePage = state.page;
-
+                global.currentHash = state;
                 global.openLoader("#container");
-                global.statusHistory[global.activePage] = true;
+                global.statusHistory["page_" + global.currentPageLevel] = true;
                 global.currentAjax = global.get(state.page, null, null);
             }
         }
+        global.openPage = false;
         global.returnBack = false;
+    },
+    ready: function () {
+        global.setupSizes();
+        global.setupBindings();
+
+        global.loadHoverable();
+
+        initFastButtons();
+
+        global.goToPage("home", false);
+
+
+        $(window).bind('hashchange', function (e) {
+            global.hashChange();
+        });
     }
 }
 
@@ -377,20 +458,7 @@ var books = {
     }
 }
 $(document).ready(function () {
+    global.ready();
 
-    global.setupSizes();
-    global.setupBindings();
-
-    global.loadHoverable();
-
-    initFastButtons();
-
-    global.goToPage("home", false);
-
-
-    $(window).bind('hashchange', function (e) {
-        global.hashChange();
-    });
 
 });
-

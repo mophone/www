@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="./css/index.css" />
     <link rel="stylesheet" href="./css/fonts.css" />
     <link href="./css/bookDetail.css" rel="stylesheet" />
+    <link href="./css/categories.css" rel="stylesheet" />
+    <link href="./css/userProfile.css" rel="stylesheet" />
 
     <script src="./js/plugins/jquery-1.10.2.js"></script>
     <script src="./js/plugins/jquery.transitions.js"></script>
@@ -23,7 +25,9 @@
     <script src="./js/home.js"></script>
     <script src="./js/searchResult.js"></script>
     <script src="./js/bookDetail.js"></script>
-      <script src="./js/read.js"></script>
+    <script src="./js/categories.js"></script>
+    <script src="./js/userProfile.js"></script>
+    <script src="./js/read.js"></script>
 
     <script src="http://localhost/appgyver/cordova.js"></script>
     <script src="cordova.js"></script>
@@ -37,12 +41,17 @@
 
         function onDeviceReady() {
             global.device = window.device.platform;
-            
+            setTimeout(function () { global.ready(); }, 5000);
             document.addEventListener("backbutton", function (e) {
+                if (leftMenu.openned) {
+                    leftMenu.close();
+                    return false;
+                }
                 e.preventDefault();
-                
-                history.go(-1);
-                navigator.app.backHistory();
+                //global.goToBack();
+
+                //history.go(-1);
+                //navigator.app.backHistory();
                 return false;
             }, false);
 

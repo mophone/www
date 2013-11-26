@@ -1,36 +1,61 @@
-﻿<section id="bookDetail">
+﻿<section id="bookDetail" class="book_detail">
     <div id="scroller">
         <div id="loader">
         </div>
-        
+
         <div id="bookDetailContent" class="book_detail_content">
             <!-- <div class="breadcrumb" id="categoriesWrapper">
             Edebiyat / Dünya Klasikleri
         </div>-->
             <div class="cover" id="cover"></div>
-            
+
             <div class="purchase" id="purchase">
                 <div class="rating" id="rating"></div>
                 <div class="comment_count" id="commentCount"></div>
                 <div id="purchaseButton" class="button confirm">kütüphaneme ekle</div>
             </div>
             <ul class="menu" id="menu">
-                <li class="details active">detaylar</li>
-                <li class="comments">yorumlar</li>
-                <li class="shelves">raflar</li>
-                <li class="share">paylaş</li>
+                <li class="details active" data-target="bookDetailDetails" data-loaded="true">detaylar</li>
+                <li class="comments" data-target="bookDetailComments" data-loaded="false">yorumlar</li>
+                <li class="shelves" data-target="bookDetailShelves" data-loaded="false">raflar</li>
+                <li class="share" data-target="bookDetailShare" data-loaded="false">paylaş</li>
             </ul>
         </div>
-        <div class="book_detail_sub_content" id="bookDetailSubContent"></div>
-    </div>
-    <div class="title" id="titleArea">
-                <div class="avatar" id="creatorAvatar"></div>
-                <div class="book_info">
-                    <div class="name" id="bookName">
-                    </div>
-                    <div class="authors" id="authors"> 
-                    </div>
+        <div class="book_detail_sub_content" id="bookDetailSubContent">
+            <div id="scrollArea">
+                <div class="detail_content active" id="bookDetailDetails">
+                    <div class="short_description" id="shortDescription"></div>
+                    <ul class="specs" id="specs"></ul>
+                    <div class="clear"></div>
+                    <ul class="tags" id="tags"></ul>
+                    <div class="clear"></div>
+                    <div class="clear"></div>
+                    <p id="description"></p>
+                </div>
+                <div class="detail_comments" id="bookDetailComments">
+                    <ul id="commentList" class="comment_list">
+                    </ul>
+                </div>
+                <div class="detail_shelves" id="bookDetailShelves">
+                    <ul id="shelfList" class="shelf_list">
+                    </ul>
+                </div>
+                 <div class="detail_share" id="bookDetailShare">
+                     <div class="facebook button" id="facebookShare">facebook'ta paylaş</div>
+                     <div class="twitter button">twitter'da paylaş</div>
+                     <div class="google button">google+'ta paylaş</div>
                 </div>
             </div>
-    
+        </div>
+    </div>
+    <div class="title" id="titleArea">
+        <div class="avatar" id="creatorAvatar"></div>
+        <div class="book_info">
+            <div class="name" id="bookName">
+            </div>
+            <div class="authors" id="authors">
+            </div>
+        </div>
+    </div>
+
 </section>

@@ -1,19 +1,19 @@
-﻿#bookDetail {
+﻿.book_detail {
     overflow: hidden;
     height: 100%;
 }
 
-    #bookDetail #scroller {
+    .book_detail #scroller {
         position: relative;
     }
 
-    #bookDetail .book_detail_content {
+    .book_detail .book_detail_content {
         display: none;
         height: 100%;
         position: relative;
     }
 
-    #bookDetail .breadcrumb {
+    .book_detail .breadcrumb {
         font-size: 12px;
         padding: 15px;
         color: #999;
@@ -23,7 +23,7 @@
         background: #efefeb;
     }
 
-    #bookDetail .cover {
+    .book_detail .cover {
         position: absolute;
         top: 0px;
         bottom: 50px;
@@ -37,7 +37,7 @@
         background-color: #000;
     }
 
-    #bookDetail .title_background {
+    .book_detail .title_background {
         -webkit-filter: blur(4px);
         -moz-filter: blur(4px);
         -o-filter: blur(4px);
@@ -57,11 +57,10 @@
         -webkit-background-size: 100% auto;
         background-position: center top 10px;
         background-repeat: no-repeat;
-        background-color:transparent;
-                    
+        background-color: transparent;
     }
 
-    #bookDetail .title {
+    .book_detail .title {
         position: fixed;
         top: 50px;
         left: 0px;
@@ -71,50 +70,50 @@
         padding-top: 10px;
         padding-bottom: 10px;
         display: none;
-        overflow:hidden;
+        overflow: hidden;
         background: rgba(0,0,0,0.5);
-        width:100%;
-        box-sizing:content-box;
+        width: 100%;
+        box-sizing: content-box;
     }
 
-        #bookDetail .title .avatar {
-            display:table-cell;
-            width:50px;
-            overflow:hidden;
+        .book_detail .title .avatar {
+            display: table-cell;
+            width: 50px;
+            overflow: hidden;
         }
 
-            #bookDetail .title .avatar img {
+            .book_detail .title .avatar img {
                 border-radius: 25px;
-                display:block;
+                display: block;
             }
 
-        #bookDetail .title .book_info {
-            display:table-cell;
+        .book_detail .title .book_info {
+            display: table-cell;
             color: #fff;
-            vertical-align:top;
-            overflow:hidden;
+            vertical-align: top;
+            overflow: hidden;
         }
 
-            #bookDetail .title .book_info .name {
+            .book_detail .title .book_info .name {
                 font-size: 18px;
                 font-family: "Open Sans";
-                overflow:hidden;
+                overflow: hidden;
             }
 
-            #bookDetail .title .book_info .authors {
+            .book_detail .title .book_info .authors {
                 font-size: 12px;
                 margin-top: 2px;
-                overflow:hidden;
+                overflow: hidden;
             }
 
-        #bookDetail .title.fixed_title {
+        .book_detail .title.fixed_title {
             position: fixed;
             top: 0px;
             display: none;
         }
 
 
-    #bookDetail .purchase {
+    .book_detail .purchase {
         position: absolute;
         bottom: 65px;
         left: 0px;
@@ -127,7 +126,7 @@
     }
 
 
-        #bookDetail .purchase .price {
+        .book_detail .purchase .price {
             color: #fff;
             font-size: 16px;
             font-weight: bold;
@@ -136,25 +135,25 @@
             line-height: 35px;
         }
 
-        #bookDetail .purchase .rating{
-            float:left;
-            margin-top:10px;
+        .book_detail .purchase .rating {
+            float: left;
+            margin-top: 10px;
         }
 
-        #bookDetail .purchase .comment_count{
-            float:left;
-            font-size:11px;
-            color:#fff;
-            margin-left:5px;
-            line-height:38px;
+        .book_detail .purchase .comment_count {
+            float: left;
+            font-size: 11px;
+            color: #fff;
+            margin-left: 5px;
+            line-height: 38px;
         }
 
 
-        #bookDetail .purchase .button {
+        .book_detail .purchase .button {
             float: right;
         }
 
-    #bookDetail .menu {
+    .book_detail .menu {
         position: absolute;
         bottom: 0px;
         left: 0px;
@@ -166,9 +165,13 @@
         height: 65px;
     }
 
-        #bookDetail .menu li {
+        .book_detail .menu.shadow {
+            box-shadow: 0px 2px 4px 0px rgba(0,0,0,.2);
+        }
+
+        .book_detail .menu li {
             display: table-cell;
-            background-position: center top 10px;
+            background-position: center 10px;
             background-repeat: no-repeat;
             background-size: 30px 30px;
             padding-top: 45px;
@@ -176,32 +179,271 @@
             float: none;
             white-space: nowrap;
             list-style-type: none;
-            height: 65px;
             color: #666;
             width: 25%;
         }
 
-            #bookDetail .menu li.active {
+            .book_detail .menu li.active {
                 background-color: #f8f8f5;
             }
 
-            #bookDetail .menu li.details {
+            .book_detail .menu li.details {
                 background-image: url(../img/detail.png);
             }
 
-            #bookDetail .menu li.comments {
+                .book_detail .menu li.details.active {
+                    background-image: url(../img/detail_active.png);
+                }
+
+            .book_detail .menu li.comments {
                 background-image: url(../img/comment.png);
             }
 
-            #bookDetail .menu li.shelves {
-                background-image: url(../img/library.png);
+                .book_detail .menu li.comments.active {
+                    background-image: url(../img/comment_active.png);
+                }
+
+            .book_detail .menu li.shelves {
+                background-image: url(../img/shelves.png);
             }
 
-            #bookDetail .menu li.share {
+                .book_detail .menu li.shelves.active {
+                    background-image: url(../img/library_active.png);
+                }
+
+            .book_detail .menu li.share {
                 background-image: url(../img/share.png);
             }
 
-    #bookDetail .book_detail_sub_content {
-        height: 500px;
+    .book_detail .loadMore {
+        height: 90px;
     }
 
+    .book_detail .book_detail_sub_content {
+        display: none;
+        overflow: hidden;
+        width: 100%;
+    }
+
+
+        .book_detail .book_detail_sub_content .detail_content {
+            padding: 20px;
+        }
+
+            .book_detail .book_detail_sub_content .detail_content .short_description {
+                font-family: "Open Sans";
+                font-size: 22px;
+                color: #777;
+                margin-bottom: 8px;
+            }
+
+            .book_detail .book_detail_sub_content .detail_content .tags {
+                margin-top: 10px;
+            }
+
+                .book_detail .book_detail_sub_content .detail_content .tags li {
+                    padding: 5px;
+                    background: #e5e5e5;
+                    float: left;
+                    margin-right: 5px;
+                    margin-bottom: 5px;
+                    font-size: 14px;
+                    color: #666;
+                }
+
+            .book_detail .book_detail_sub_content .detail_content .specs {
+                margin-top: 5px;
+            }
+
+                .book_detail .book_detail_sub_content .detail_content .specs li {
+                    padding: 5px;
+                    background: #666;
+                    float: left;
+                    margin-right: 5px;
+                    margin-bottom: 5px;
+                    font-size: 14px;
+                    color: #fff;
+                }
+
+            .book_detail .book_detail_sub_content .detail_content h2 {
+                font-family: "Open Sans";
+                font-weight: 300;
+                color: #999;
+                font-size: 36px;
+                margin-bottom: 0px;
+                margin-top: 10px;
+            }
+
+            .book_detail .book_detail_sub_content .detail_content p {
+                font-size: 15px;
+                color: #666;
+                margin: 0px;
+                margin-top: 10px;
+            }
+
+    .book_detail .detail_comments {
+        padding: 20px;
+        display: none;
+    }
+
+
+        .book_detail .detail_comments .comment_list {
+        }
+
+            .book_detail .detail_comments .comment_list > li {
+                display: table;
+                border-bottom: 1px solid #eeeeee;
+                padding-bottom: 15px;
+                overflow: hidden;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+                .book_detail .detail_comments .comment_list > li .avatar {
+                    display: table-cell;
+                    width: 50px;
+                }
+
+                    .book_detail .detail_comments .comment_list > li .avatar img {
+                        width: 50px;
+                        height: 50px;
+                    }
+
+                .book_detail .detail_comments .comment_list > li .details {
+                    display: table-cell;
+                    vertical-align: top;
+                    padding-left: 8px;
+                }
+
+                    .book_detail .detail_comments .comment_list > li .details .username {
+                        font-size: 16px;
+                        color: #666;
+                    }
+
+                    .book_detail .detail_comments .comment_list > li .details .date {
+                        font-size: 11px;
+                        color: #999;
+                    }
+
+                    .book_detail .detail_comments .comment_list > li .details .rating {
+                        margin-top: 5px;
+                    }
+
+                    .book_detail .detail_comments .comment_list > li .details .comment {
+                        font-size: 15px;
+                        color: #666;
+                        margin-top: 5px;
+                        word-wrap: break-word;
+                        padding-right: 8px;
+                    }
+
+                .book_detail .detail_comments .comment_list > li .replies {
+                    margin-left: -30px;
+                    clear: both;
+                    margin-top: 10px;
+                }
+
+                    .book_detail .detail_comments .comment_list > li .replies li {
+                        display: table;
+                        background: #eeeeee;
+                        overflow: hidden;
+                        width: 100%;
+                        padding: 10px;
+                        margin-bottom: 5px;
+                    }
+
+                        .book_detail .detail_comments .comment_list > li .replies li .avatar {
+                            display: table-cell;
+                            width: 30px;
+                        }
+
+                            .book_detail .detail_comments .comment_list > li .replies li .avatar img {
+                                width: 30px;
+                                height: 30px;
+                            }
+
+                        .book_detail .detail_comments .comment_list > li .replies li .details {
+                            display: table-cell;
+                            vertical-align: top;
+                            padding-left: 8px;
+                            padding-right: 8px;
+                        }
+
+                            .book_detail .detail_comments .comment_list > li .replies li .details .username {
+                            }
+
+                            .book_detail .detail_comments .comment_list > li .replies li .details .date {
+                                font-size: 11px;
+                                color: #999;
+                            }
+
+                            .book_detail .detail_comments .comment_list > li .replies li .details .rating {
+                                margin-top: 5px;
+                            }
+
+                            .book_detail .detail_comments .comment_list > li .replies li .details .comment {
+                                font-size: 15px;
+                                color: #666;
+                                margin-top: 5px;
+                                word-wrap: break-word;
+                            }
+
+    .book_detail .detail_shelves {
+        padding: 20px;
+        display: none;
+    }
+
+        .book_detail .detail_shelves .shelf_list {
+            margin-right: -10px;
+        }
+
+            .book_detail .detail_shelves .shelf_list > li {
+                width: 33%;
+                text-align: center;
+                margin-bottom: 15px;
+                float: left;
+            }
+
+                .book_detail .detail_shelves .shelf_list > li .avatar img {
+                    border-radius: 50px;
+                    width: 80%;
+                    display: inline;
+                }
+
+                .book_detail .detail_shelves .shelf_list > li .name {
+                    font-size: 14px;
+                    color: #666;
+                    margin-top: 5px;
+                }
+
+                .book_detail .detail_shelves .shelf_list > li .username {
+                    font-size: 12px;
+                    color: #999;
+                }
+
+                .book_detail .detail_share{
+                    padding:20px;
+                    display:none;
+                }
+
+                 .book_detail .detail_share .button{
+                    width:100%;
+                    padding-top:20px;
+                    padding-bottom:20px;
+                    color:#fff;
+                    font-size:18px;
+                    text-align:center;
+                    margin-bottom:10px;
+                }
+
+                 .book_detail .detail_share .button.facebook{
+                     background:#47639E;
+                 }
+
+                 .book_detail .detail_share .button.twitter{
+                     background:#52C2F6;
+                 }
+
+                 .book_detail .detail_share .button.google{
+                     background:#DD4B39;
+                 }

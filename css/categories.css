@@ -1,0 +1,22 @@
+﻿.category_list{
+
+}
+
+.category_list li{
+    height:90px;
+    background-size:cover;
+    -webkit-background-size:cover;
+    background-position:center center;
+    width:100%;
+    position:relative;
+}
+
+.category_list li .text{
+    background:#fff;
+    font-size:18px;
+    position:absolute;
+    padding:5px;
+    top:30px;
+    left:10px;
+    color:#666;
+}

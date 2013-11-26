@@ -1,0 +1,49 @@
+﻿.user_profile{
+
+}
+
+.user_profile .top_area{
+    height:100px;
+    background:#efefeb;
+    float:left;
+    width:100%;
+    text-align:center;
+}
+
+.user_profile .top_area .avatar{
+    margin-left:auto;
+    margin-right:auto;
+    width:150px;
+    margin-top:20px;
+}
+
+.user_profile .top_area .avatar img{
+    width:150px;
+    height:150px;
+    border-radius:75px;
+    box-shadow:3px 3px rgba(0,0,0,0.2);
+    -webkit-box-shadow:3px 3px rgba(0,0,0,0.2);
+}
+
+.user_profile .top_area .name{
+    font-size:22px;
+    color:#666;
+    margin-top:10px;
+}
+
+.user_profile .top_area .location{
+    font-size:18px;
+    color:#999;
+    margin-top:10px;
+}
+
+.user_profile .top_area .info{
+    font-size:14px;
+    color:#999;
+    margin-top:8px;
+}
+
+.user_profile .top_area .follow_button{
+    margin-top:10px;
+    display:inline-block;
+}

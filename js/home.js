@@ -2,14 +2,13 @@ var homeBooks = {
     tabs: ["promoted", "newest", "sell"],
     activeTab: 0,
     activeAjax: null,
+    pageID: null,
     openTab: function (el) {
-
         homeBooks.activeTab = el.getAttribute("data-action") * 1;
         homeBooks.getBooks();
-
     },
     getBooks: function () {
-        global.loadHistory["home"] = false;
+        global.loadHistory[homeBooks.pageID] = false;
         var bookList = document.getElementById("bookList");
 
         //document.getElementById("content").style.overflowY = "hidden";
@@ -29,7 +28,7 @@ var homeBooks = {
         bookList.style.height = "auto";
         bookList.style.opacity = 0;
 
-        global.openLoader("#home #content");
+        global.openLoader("#" + homeBooks.pageID + " #content");
 
         if (global.currentAjax != null)
             global.currentAjax.abort();
@@ -42,24 +41,24 @@ var homeBooks = {
 
             bookList.innerHTML = html;
 
-            $("#home #bookList").imagesLoaded(function (instance) {
-                if ($("#home #bookList").hasClass("isotope"))
-                    $("#home #bookList").isotope('destroy');
+            $("#" + homeBooks.pageID + " #bookList").imagesLoaded(function (instance) {
+                if ($("#" + homeBooks.pageID + " #bookList").hasClass("isotope"))
+                    $("#" + homeBooks.pageID + " #bookList").isotope('destroy');
 
-                $("#home #bookList").isotope({
+                $("#" + homeBooks.pageID + " #bookList").isotope({
                     itemSelector: '.item',
                     resizable: false
                 }, function () {
-                    global.closeLoader("home");
+                    global.closeLoader(homeBooks.pageID);
                     //document.getElementById("content").style.overflowY = "auto";
                     bookList.style.opacity = 1;
-                    $("#home #bookList li").css({ opacity: 1 });
-                    global.loadHistory["home"] = true;
-                    if (global.statusHistory["home"] != null) {
-                        if (!global.statusHistory["home"])
-                            document.getElementById("home").style.display = "none";
+                    $("#" + homeBooks.pageID + " #bookList li").css({ opacity: 1 });
+                    global.loadHistory[homeBooks.pageID] = true;
+                    if (global.statusHistory[homeBooks.pageID] != null) {
+                        if (!global.statusHistory[homeBooks.pageID])
+                            document.getElementById(homeBooks.pageID).style.display = "none";
                         else
-                            document.getElementById("home").style.display = "block";
+                            document.getElementById(homeBooks.pageID).style.display = "block";
                     }
                     //myScroll = new IScroll('#content');
                 });

@@ -21,7 +21,10 @@
     -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
     -webkit-user-select: auto !important; /* prevent copy paste, to allow, change 'none' to 'text' */
+}
 
+html {
+    height: 100%;
 }
 
 body {
@@ -206,6 +209,10 @@ img {
                 height: 40px;
             }
 
+            .left_menu .user_info a:link{
+                text-decoration:none;
+            }
+
         .left_menu .user_info .user_name {
             margin-left: 10px;
             font-size: 14px;
@@ -225,6 +232,10 @@ img {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+    .left_menu_items a:link {
+        text-decoration: none;
+    }
 
     .left_menu_items li {
         font-size: 13px;
@@ -507,13 +518,21 @@ img {
             margin-top: 0px;
         }
 
+    .content.nosubmenu {
+        top: 0px;
+    }
+
+    .content .no_result {
+        display: none;
+      text-align:center;
+      font-size:14px;
+      margin-top:20px;
+    }
+
 .book_list {
     width: 100%;
     margin-top: 5px;
     overflow: hidden;
-    transform: translate3d(0,0,0);
-    -moz-transform: translate3d(0,0,0);
-    -webkit-transform: translate3d(0,0,0);
 }
 
     .book_list > li {
@@ -525,9 +544,9 @@ img {
         opacity: 0;
     }
 
-    .book_list > li a:link{
-        text-decoration:none;
-    }
+        .book_list > li a:link {
+            text-decoration: none;
+        }
 
         .book_list > li .info {
             padding: 10px;
@@ -558,6 +577,8 @@ img {
         box-shadow: none;
         -webkit-box-shadow: none;
     }
+
+
 
 
 .isotope .isotope-item {
@@ -605,7 +626,7 @@ img {
     }
 
 .rating {
-    background: url("/img/star_empty.png") repeat-x;
+    background: url("../img/star_empty.png") repeat-x;
     background-size: 16px 16px;
     -webkit-background-size: 16px 16px;
     height: 16px;
@@ -614,7 +635,7 @@ img {
 }
 
     .rating .full {
-        background: url("/img/star.png") repeat-x;
+        background: url("../img/star.png") repeat-x;
         background-size: 16px 16px;
         -webkit-background-size: 16px 16px;
         height: 16px;
@@ -624,5 +645,5 @@ img {
     }
 
         .rating .full.hover {
-            background: url("/img/star_hover.png") repeat-x;
+            background: url("../img/star_hover.png") repeat-x;
         }
