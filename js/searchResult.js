@@ -27,7 +27,16 @@ searchResult.prototype.setupPaging = function (results) {
             searchResultObject.search("appended");
         }
     }
-    this.categoryScroll = new IScroll('#' + this.elementID + ' #scrollable', { probeType: 3, mouseWheel: true, bounce: true, momentum: true });
+    this.categoryScroll = new IScroll('#' + this.elementID + ' #scrollable', { probeType: 3, mouseWheel: true, bounce: true, momentum: true, click: true });
+    this.categoryScroll.on('scrollEnd', function () {
+        if (this.y < (this.maxScrollY) + 5) {
+            if ((searchResultObject.currentPage + 1) * searchResultObject.itemCount < searchResultObject.totalItemCount && !searchResultObject.loading) {
+                searchResultObject.loading = true;
+                searchResultObject.currentPage++;
+                searchResultObject.search("appended");
+            }
+        }
+    });
 }
 
 searchResult.prototype.putLoader = function () {
@@ -47,7 +56,7 @@ searchResult.prototype.search = function (type) {
     var searchResultObject = this;
     var booksContainer = this.elem.querySelectorAll("#bookList")[0];
 
-    global.openLoader("#" + this.elementID + " #content");
+    global.openLoader("#" + searchResultObject.elementID + " #content");
 
     this.elem.querySelector("#noResult").style.display = "none";
 
@@ -126,19 +135,17 @@ searchResult.prototype.search = function (type) {
                 $("#" + searchResultObject.elementID + " #bookList")[0].appendChild(fragment);
 
                 $("#" + searchResultObject.elementID + " #bookList").imagesLoaded(function (instance) {
-
-                    global.closeLoader(searchResultObject.elementID);
-                    //searchResult.parent.querySelector("#content").style.overflowY = "hidden";
                     if ($("#" + searchResultObject.elementID + " #bookList").hasClass("isotope") && type == "appended") {
                         $("#" + searchResultObject.elementID + " #bookList").isotope("appended", $(elems),
                             function () {
+                                global.closeLoader(searchResultObject.elementID);
                                 if (searchResultObject.elem.querySelector("#bookListLoader") != null)
                                     searchResultObject.elem.querySelector("#bookListLoader").remove();
                                 searchResultObject.loading = false;
                                 $("#" + searchResultObject.elementID + " #bookList li").css({ opacity: 1 });
-                                //searchResult.parent.querySelector("#content").style.overflowY = "auto";
+                                booksContainer.style.height = (booksContainer.style.height.replace("px", "") * 1 + 100) + "px";
                                 searchResultObject.putLoader();
-                                //searchResult.scroll.refresh();
+                                searchResultObject.categoryScroll.refresh();
                             })
                     }
                     else {
@@ -148,17 +155,15 @@ searchResult.prototype.search = function (type) {
                         $("#" + searchResultObject.elementID + " #bookList").isotope({
                             itemSelector: '.item'
                         }, function () {
-                            global.closeLoader();
+                            global.closeLoader(searchResultObject.elementID);
                             booksContainer.style.opacity = 1;
+                            booksContainer.style.height = (booksContainer.style.height.replace("px", "") * 1 + 100) + "px";
                             searchResultObject.setupPaging();
                             searchResultObject.loading = false;
 
                             $("#" + searchResultObject.elementID + " #bookList li").css({ opacity: 1 });
                             searchResultObject.elem.querySelectorAll("#content")[0].style.overflowY = "auto";
                             searchResultObject.putLoader();
-                            //searchResult.scroll = new IScroll('#content', { probeType: 3});
-                            //searchResult.scroll.on('scroll', searchResult.updatePosition);
-
                         });
                     }
 
@@ -176,4 +181,3 @@ searchResult.prototype.search = function (type) {
 
     }, "jsonp");
 }
-

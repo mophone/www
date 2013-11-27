@@ -1,13 +1,49 @@
-﻿<section id="userProfile">
+﻿<section id="userProfileArea">
     <div class="content nosubmenu" id="content">
-         <div class="user_profile">
-             <div class="top_area">
-                 <div class="avatar"><img src="http://www.mobidik.com/resim/kullanici/24/300/300.jpg" /></div>
-                 <div class="name">Murat Aygüney</div>
-                 <div class="location">İstanbul</div>
-                 <div class="info">Lorem ipsum dolor sit amet</div>
-                 <div class="follow_button button confirm">+ takip et</div>
-             </div>
-         </div>
+        <div id="scrollable" style="position: relative; display: block; width: 100%; height: 100%; overflow: hidden;">
+            <div class="user_profile" id="userProfile">
+                <div class="top_area">
+                    <div class="avatar">
+                        <img id="avatar" />
+                    </div>
+                    <div class="user_info">
+                        <div class="name" id="name"></div>
+                        <div class="location" id="location"></div>
+                        <div class="info" id="info"></div>
+                        <div class="follow_button button confirm">+ takip et</div>
+                    </div>
+                </div>
+                <ul class="menu" id="menu">
+                    <li id="bookCount" data-target="books">kitapları
+                    <div class="number"></div>
+                    </li>
+                    <li id="libraryCount" data-target="library">kütüphanesi
+                    <div class="number"></div>
+                    </li>
+                    <li id="followerCount" data-target="followers">takipçileri
+                    <div class="number"></div>
+                    </li>
+                    <li id="followingCount" data-target="followings">takip ettikleri
+                    <div class="number"></div>
+                    </li>
+                </ul>
+                <div class="sub_content" id="subContent">
+                    <div id="scrollArea">
+                        <div id="library" class="detail_content">
+                            <ul class="shelf_list" id="shelfList">
+                            </ul>
+                        </div>
+                         <div id="followers" class="detail_content">
+                            <ul class="user_list" id="followerList">
+                            </ul>
+                        </div>
+                         <div id="followings" class="detail_content">
+                            <ul class="user_list" id="followingList">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>

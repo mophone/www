@@ -20,6 +20,10 @@ Element.prototype.remove = function () {
     this.parentElement.removeChild(this);
 }
 
+Element.prototype.querySelector = function (query) {
+    return document.querySelector("#"+this.getAttribute("id") + "  " + query);
+}
+
 var leftMenu = {
     status: false,
     openned: false,
@@ -170,7 +174,9 @@ var global = {
 
         });
 
-        $(document).on("click", "a", function () {
+
+        var clickOrTouch = (('ontouchend' in window)) ? 'touchend' : 'click';
+        $(document).on(clickOrTouch, "a", function (e) {
             global.openPage = true;
         });
     },
@@ -202,8 +208,10 @@ var global = {
             if (type != "jsonp") {
                 global.closeLoader("container");
                 document.getElementById("container").insertAdjacentHTML("beforeend", data);
+
                 document.getElementById("container").lastElementChild.setAttribute("id", "page_" + global.currentPageLevel);
                 document.getElementById("page_" + global.currentPageLevel).style.zIndex = global.currentPageLevel;
+
                 global.initPageFunctions(url);
             }
             if (callback != null)
@@ -231,45 +239,52 @@ var global = {
         if (global.currentAjax != null)
             global.currentAjax.abort();
 
-        if (index <= 0) {
-            document.getElementById("page_" + (global.currentPageLevel)).remove();
-            global.activePage = global.history[global.history.length - 1];
-            global.history.splice(global.history.length - 1, 1);
-            global.hashHistory.splice(global.hashHistory.length - 1, 1);
+        document.getElementById("page_" + global.currentPageLevel).style.transform = "scale(0.8)";
+        document.getElementById("page_" + global.currentPageLevel).style.webkitTransform = "scale(0.8)";
+        document.getElementById("page_" + global.currentPageLevel).style.opacity = "0";
 
-            global.currentPageLevel--;
-        }
-        else {
-            var length = global.history.length;
-            for (var i = index ; i < length; i++) {
-                document.getElementById("page_" + (i + 2)).remove();
-                global.currentPageLevel--;
+        setTimeout(function () {
+            if (index <= 0) {
+                document.getElementById("page_" + (global.currentPageLevel)).remove();
                 global.activePage = global.history[global.history.length - 1];
                 global.history.splice(global.history.length - 1, 1);
-                global.hashHistory.splice(global.history.length - 1, 1);
+                global.hashHistory.splice(global.hashHistory.length - 1, 1);
+
+                global.currentPageLevel--;
             }
-        }
+            else {
+                var length = global.history.length;
+                for (var i = index ; i < length; i++) {
+                    document.getElementById("page_" + (i + 2)).remove();
+                    global.currentPageLevel--;
+                    global.activePage = global.history[global.history.length - 1];
+                    global.history.splice(global.history.length - 1, 1);
+                    global.hashHistory.splice(global.history.length - 1, 1);
+                }
+            }
 
-        if (global.history.length == 0) {
-            //if (global.device = "IOS") {
-            document.getElementById("btnBack").style.display = "none";
-            document.getElementById("btnLeftMenu").style.display = "block";
-            //}
-        }
-
-        document.getElementById("page_" + global.currentPageLevel).style.display = "block";
+            if (global.history.length == 0) {
+                //if (global.device = "IOS") {
+                document.getElementById("btnBack").style.display = "none";
+                document.getElementById("btnLeftMenu").style.display = "block";
+                //}
+            }
+        }, 200);
 
         global.returnBack = true;
         global.statusHistory[global.activePage] = true;
         document.getElementById("txtHeaderSearch").value = "";
         if (headerSearch.status)
             headerSearch.toggle();
+
+
+
     },
     initPageFunctions: function (url) {
         switch (url) {
             case "home":
-                homeBooks.loadPage();
                 homeBooks.pageID = "page_" + global.currentPageLevel;
+                homeBooks.loadPage();
                 if (global.firstLoad) {
                     global.hashChange();
                     global.firstLoad = false;
@@ -298,13 +313,17 @@ var global = {
             case "categories":
                 categories.getCategories();
                 break;
+            case "userProfile":
+                var state = $.bbq.getState();
+                new userProfile("page_" + global.currentPageLevel, state.userID);
+                break;
             default:
                 break;
         }
     },
     openLoader: function (query) {
         if (document.querySelector(query + " .spinner") == null)
-            global.loadSpinner(document.querySelector(query));
+            global.loadSpinner(document.querySelectorAll(query));
     },
     closeLoader: function (id) {
         if (document.querySelector("#" + id + " .spinner") != null)
@@ -329,7 +348,10 @@ var global = {
             top: '20px', // Top position relative to parent in px
             left: 'auto' // Left position relative to parent in px
         };
-        var spinner = new Spinner(opts).spin(target);
+        for (var i = 0; i < target.length; i++) {
+            var spinner = new Spinner(opts).spin(target[i]);
+        }
+
     },
     setupSizes: function () {
         global.windowWidth = window.innerWidth;
@@ -380,15 +402,16 @@ var global = {
 
         if ((!global.firstLoad || (global.firstLoad && page != "home")) && !global.returnBack) {
             if (global.history.indexOf(page) > -1 && !global.openPage) {
-                global.goToBack(global.history.indexOf(page));
+                global.goToBack(typeof state.unique != "undefined" ? global.history.indexOf(page) : 0);
             }
             else {
                 if (!global.loadHistory["page_" + global.currentPageLevel])
                     global.statusHistory["page_" + global.currentPageLevel] = false;
-                else
-                    document.getElementById("page_" + global.currentPageLevel).style.display = "none";
+                //else
+                //document.getElementById("page_" + global.currentPageLevel).style.display = "none";
 
                 document.getElementById("page_" + global.currentPageLevel).style.zIndex = global.currentPageLevel;
+
                 global.currentPageLevel++;
                 global.history.push(global.activePage);
                 global.hashHistory.push(global.currentHash);
@@ -437,10 +460,10 @@ var utils = {
 }
 
 var books = {
-    getBookItemHtml: function (bookID, bookName) {
-        return '<li  class="item" style="width:' + ((global.windowWidth - global.itemCount * 16) / global.itemCount) + 'px;">' +
+    getBookItemHtml: function (bookID, bookName, width) {
+        return '<li  class="item" style="width:' + (!width ? ((global.windowWidth - global.itemCount * 16) / global.itemCount) : width) + 'px;">' +
                    '<a href="#page=bookDetail&bookID=' + bookID + '"><div class="cover">' +
-                         '<img width="' + ((global.windowWidth - global.itemCount * 16) / global.itemCount) + 'px" src="http://www.mobidik.com/resim/kitap/' + bookID + '/' + global.bookItemImageWidth + '/0.jpg" />' +
+                         '<img width="' + (!width ? ((global.windowWidth - global.itemCount * 16) / global.itemCount) : width) + 'px" src="http://www.mobidik.com/resim/kitap/' + bookID + '/' + (!width ? global.bookItemImageWidth : width * 2) + '/0.jpg" />' +
                      '</div>' +
                      '<div class="info">' +
                          '<div class="name">' +
@@ -458,7 +481,7 @@ var books = {
     }
 }
 $(document).ready(function () {
-    //global.ready();
+    global.ready();
 
 
 });

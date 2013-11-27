@@ -1,5 +1,5 @@
-﻿.category_list{
-
+﻿.category_list a{
+    text-decoration:none;
 }
 
 .category_list li{

@@ -518,8 +518,9 @@ var IScroll = (function (window, document, Math) {
             if (!this.enabled || utils.eventType[e.type] !== this.initiated) {
                 return;
             }
-
+            
             if (this.options.preventDefault && !utils.preventDefaultException(e.target, this.options.preventDefaultException)) {
+               
                 e.preventDefault();
             }
 
